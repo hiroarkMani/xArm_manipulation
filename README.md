@@ -6,22 +6,7 @@ xArmは基本的に動かし方は二つある．
 
 今回は，ROSでxArmを動かす方法について紹介する．
 まず，大前提として，ROSの環境構築(本研究室サーバー\manilab\software\ROS練習)は終えておいてください．
-また，最低限のトピック通信の方法は学んでおいておくことを推奨します．
-
-For simplified Chinese version: [简体中文版](./ReadMe_cn.md)    
-For **UFACTORY Lite 6** users, make sure you have followed the instructions before chapter 4.7 on this page, then switch to [ReadMe for Lite6](./ReadMe_others.md).  
-
-## Important Notice:
-&ensp;&ensp;Topic "**xarm_cgpio_states**" has been renamed to "**controller_gpio_states**".  
-
-&ensp;&ensp;After using xArm C++ SDK as sub-module, the use of **/xarm/set_tool_modbus** service has been modified, compared with old version, the redundant '***0x09***' byte in response data has been ***removed***！  
-&ensp;&ensp;Due to robot communication data format change, ***early users*** (xArm shipped ***before June 2019***) are encouraged to ***upgrade*** their controller firmware immediately to drive the robot normally in future updates as well as to use newly developed functions. Please contact our staff to get instructions of the upgrade process. The old version robot driver can still be available in ***'legacy'*** branch, however, it will not be updated any more.   
-
-&ensp;&ensp;You MUST follow **chapter 3** to install additional packages needed before any usage of xarm_ros packages. Otherwise, unexpected errors may occur.
-
-&ensp;&ensp;If developing with **Moveit**, it is highly recommended to use **DIRECT network cable connection** between controller box and your PC, and no intermediate switches or routers, or the communication latency may have a bad impact on trajectory execution.  
-
-&ensp;&ensp; When updating this package, please remember to [check the submodule update](#421-update-the-package) as well!  
+また，最低限のトピック通信の方法は学んでおいておくことを推奨します． 
 
 # Contents:  
 * [1. Introduction](#1-introduction)
