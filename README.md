@@ -257,15 +257,13 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
 - __geometry_mesh_tcp_rpy__:xarm ツールフランジ座標に対する方向 TCP オフセット、デフォルト: "0 0 0"、ジオメトリタイプ: メッシュに対して有効。 
 
 ## 3.6 xarm_planner:
-&ensp;&ensp;This implemented simple planner interface is based on move_group from Moveit! and provide ros service for users to do planning & execution based on the requested target, user can find detailed instructions on how to use it inside [***xarm_planner package***](./xarm_planner/).  
-#### To launch the xarm simple motion planner together with the real xArm:  
-```bash
-   $ roslaunch xarm_planner xarm_planner_realHW.launch robot_ip:=<your controller box LAN IP address> robot_dof:=<7|6|5> add_(vacuum_)gripper:=<true|false>
-```
-Argument 'robot_dof' specifies the number of joints of your xArm (default is 7). Now xarm_planner supports model with gripper or vacuum_gripper attached. Please specify "**add_gripper**" or "**add_vacuum_gripper**" argument if needed.    
+&ensp;&ensp;この実装は，Moveit!のmove_groupをベースとした，シンプルなプランナインタフェースで，ユーザが要求したターゲットに応じた計画・実行を行うためのサービスを提供します．
+※ここも特に弄ってないのでよく分かりません.
 
 ## 3.7 xarm_api/xarm_msgs:
-&ensp;&ensp;These two packages provide user with the ros service wrapper of the functions in xArm SDK. There are 12 types of motion command (service names) supported，please set correct robot mode first, refer to [mode change section](#6-mode-change):  
+&ensp;&ensp;この2つのパッケージは、xArm SDKの機能のROSサービスラッパーをユーザーに提供します。12種類のモーションコマンド(サービス名)がサポートされていますが、まず正しいロボットモードを設定してください。 
+
+
 #### Robot Mode 0:
 * <font color=blue>[move_joint](#1-joint-space-motion):</font> joint space point to point command, given target joint angles, max joint velocity and acceleration. Corresponding function in SDK is "set_servo_angle()".  
 * <font color=blue>[move_line](#2-cartesian-space-motion-in-base-coordinate):</font> straight-line motion to the specified Cartesian Tool Centre Point(TCP) target. Corresponding function in SDK is "set_position()"[blending radius not specified].  
