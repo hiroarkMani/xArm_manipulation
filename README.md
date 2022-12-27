@@ -183,68 +183,65 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
    こんな感じに手動で動かせるか確認をしよう.
    
    [Screencast from 2022年12月27日 21時02分35秒.webm](https://user-images.githubusercontent.com/86779771/209665020-38b6d7f1-271a-4ec2-8217-6a4891fb2769.webm)
-#### To run Moveit! motion planner along with Gazebo simulator:  
-   1. If no xArm gripper needed, first run:  
+#### Gazeboシミュレータと一緒にMoveit！モーションプランナーを実行:  
+   1. **xArmグリッパーが必要ない場合**は、まずこれを実行:  
    ```bash
-   $ roslaunch xarm_gazebo xarm7_beside_table.launch
+   $ roslaunch xarm_gazebo xarm6_beside_table.launch
    ```
-   Then in another terminal:
+   次に、別のターミナルで:
    ```bash
-   $ roslaunch xarm7_moveit_config xarm7_moveit_gazebo.launch
+   $ roslaunch xarm6_moveit_config xarm6_moveit_gazebo.launch
    ```
-   2. If **xArm gripper needs to be attached**, first run:  
+   2. **xArmグリッパーが必要な場合**:  
    ```bash
-   $ roslaunch xarm_gazebo xarm7_beside_table.launch add_gripper:=true
+   $ roslaunch xarm_gazebo xarm6_beside_table.launch add_gripper:=true
    ```
-   Then in another terminal:
+   次に、別のターミナルで:
    ```bash
-   $ roslaunch xarm7_gripper_moveit_config xarm7_gripper_moveit_gazebo.launch
+   $ roslaunch xarm6_gripper_moveit_config xarm6_gripper_moveit_gazebo.launch
    ```
-   If you have a satisfied motion planned in Moveit!, hit the "Execute" button and the virtual arm in Gazebo will execute the trajectory.  
+   Moveit！で満足のいく動作が計画できたら、「Excute」ボタンを押すと、Gazebo の仮想アームが軌道を実行する.
 
-   3. If **xArm vacuum gripper needs to be attached**, just replace "gripper" with "vacuum_gripper" in above gripper example.  
+   3.  **xArmのバキュームグリッパーが必要な場合**, 上記のグリッパーの例の "gripper "を "vacuum_gripper "に置き換えるだけでよいでしょう。
 
-#### To run Moveit! motion planner to control the real xArm:  
-   First make sure the xArm and the controller box are powered on, then execute:  
+#### Moveit！モーションプランナーで実際のxArm(実機)を制御する方法:  
+   まず、xArmとコントローラボックスの電源が入っていること(**緊急停止ボタンをOFFにし電源ボタンがON**)を確認し、以下のコマンドを実行:  
    ```bash
-   $ roslaunch xarm7_moveit_config realMove_exec.launch robot_ip:=<your controller box LAN IP address> [velocity_control:=false] [report_type:=normal]
+   $ roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
    ```
-   Examine the terminal output and see if any error occured during the launch. If not, just play with the robot in Rviz and you can execute the sucessfully planned trajectory on real arm. But be sure it will not hit any surroundings before execution!   
+   正しく動作した際は、xArmが「カチカチカチ」と内部アクチュエータが起動した音が鳴ります. (元から起動している場合は鳴りません.)ターミナルの出力を見て、起動中にエラーが発生したかどうかを確認します. ターミナルの出力を見て、起動中に何かエラーが発生したかどうか確認してください。もしエラーがなければ、Rvizで先の動画のようにロボットを簡単に操作し、うまく計画された軌道を実際のアームで実行することができます。ただし、実行前に周囲にぶつからないことを確認してください!　
 
-   `velocity_control` is optional, if set to `true`, velocity controller and velocity interface will be used rather than position control. `report_type` is also optional, refer [here](#report_type-argument).  
+※robot_ipはアーム毎に異なります. もし二台目のxArmなどが入荷された場合は、ここのIPはそれに変えるようにしてください.
 
-#### To run Moveit! motion planner to control the real xArm with xArm Gripper attached:  
-   First make sure the xArm and the controller box are powered on, then execute:  
+#### xArm Gripperを実際に入荷し取り付けた場合:  
    ```bash
-   $ roslaunch xarm7_gripper_moveit_config realMove_exec.launch robot_ip:=<your controller box LAN IP address>
+   $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
    ```
-   It is better to use this package with real xArm gripper, since Moveit planner will take the gripper into account for collision detection.  
+     Moveitプランナーはグリッパーを考慮して衝突判定を行うので、このパッケージは実際のxArmグリッパーと一緒に使うのがよいでしょう。 
 
-#### To run Moveit! motion planner to control the real xArm with xArm Vacuum Gripper attached:  
-   First make sure the xArm and the controller box are powered on, then execute:  
+#### xArm Vaccum Gripperを実際に入荷し取り付けた場合:  
    ```bash
-   $ roslaunch xarm7_vacuum_gripper_moveit_config realMove_exec.launch robot_ip:=<your controller box LAN IP address>
+   $ roslaunch xarm7_vacuum_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.1.217
    ```
-   It is better to use this package with real xArm vacuum gripper, since Moveit planner will take the vacuum gripper into account for collision detection.  
 
-## 3.5.1 Add custom tool model for Moveit
-&ensp;&ensp;***This part may require ROS Melodic or later versions to function well***  
-&ensp;&ensp;For __xarm5_moveit_config__/__xarm6_moveit_config__/__xarm7_moveit_config__, customized tool models maybe added to the tool flange through quick-configuration parameters listed below，thus to enable Tool offset and 3D collision checking during Moveit motion planning. (Notice：configuration through '/xarm/set_tcp_offset' service will not be effective in Moveit planning!) 
+## 3.5.1 Moveitのためのカスタムツールモデルの追加
+&ensp;&ensp;xarm5_moveit_config__/__xarm6_moveit_config__/__xarm7_moveit_config__ では、以下のクイック設定パラメータにより、カスタマイズした工具モデルを工具フランジに追加し、 Moveit動作計画時の工具オフセットと3次元干渉チェックを行うことができます。(注意：'/xarm/set_tcp_offset' サービスによる設定は、Moveit の動作計画には有効ではありません！) ### 例：'/xarm/set_tcp_offset' サービスによる設定は、動作計画には有効ではありません。
 
 ### Examples:
    ```bash
-   # attaching box model:
-   $ roslaunch xarm7_moveit_config demo.launch add_other_geometry:=true geometry_type:=box
+   # 直方体のモデルの取り付け:
+   $ roslaunch xarm6_moveit_config demo.launch add_other_geometry:=true geometry_type:=box
 
-   # attaching cylinder model:
-   $ roslaunch xarm7_moveit_config demo.launch add_other_geometry:=true geometry_type:=cylinder
+   # 円筒形状のモデル:
+   $ roslaunch xarm6_moveit_config demo.launch add_other_geometry:=true geometry_type:=cylinder
 
-   # attaching sphere model:
-   $ roslaunch xarm7_moveit_config demo.launch add_other_geometry:=true geometry_type:=sphere
+   # 球モデル:
+   $ roslaunch xarm6_moveit_config demo.launch add_other_geometry:=true geometry_type:=sphere
 
-   # attaching customized mesh model:（Here take xarm vacuum_gripper as an example，if the mesh model could be placed in: 'xarm_description/meshes/other'directory，'geometry_mesh_filename' argument can be simplified to be just the filename）
-   $ roslaunch xarm7_moveit_config demo.launch add_other_geometry:=true geometry_type:=mesh geometry_mesh_filename:=package://xarm_description/meshes/vacuum_gripper/visual/vacuum_gripper.STL geometry_mesh_tcp_xyz:='"0 0 0.126"'
+   # カスタマイズモデル(設計したやつとか):（ここでは、xarm vacuum_gripperを例とします。xarm_description/mmeshes/other'ディレクトリに置く場合、geometry_mesh_filenameは、ファイル名として簡略化できます）
+   $ roslaunch xarm6_moveit_config demo.launch add_other_geometry:=true geometry_type:=mesh geometry_mesh_filename:=package://xarm_description/meshes/vacuum_gripper/visual/vacuum_gripper.STL geometry_mesh_tcp_xyz:='"0 0 0.126"'
    ```
+   このような形で設計したものをSTL形式にすれば、それをPCのシミュレーション上に投影し動作計画時に干渉チェックできる.試しに机の上にbox置いてみるとかでは使えるけど、ハンドを取り付ける場合毎回これやるのはバカバカしいのでオススメしません.(後述)
 
 ### Argument explanations:
 - __add_other_geometry__: default to be false，indicating whether to add other geometry model to the tool.
