@@ -12,7 +12,7 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 本資料の序盤部分は[公式のマニュアル](https://github.com/xArm-Developer/xarm_ros)に書いてあることをそのまま日本語化して、必要なものだけを載せただけです.もし何か分からないことあれば、最新の更新者に聞いてください.
 
 ※コマンドすべて頭文字に$が入っているので実行する前に取り除いてください.　
-
+※目次が変ですが、日本語のタイトルにリンク貼れないようなのですいません...
 **※所詮一学生が作ったものなので、正しい情報とは限りません. 分からない事は正直に分からないと書いてるので, その箇所が重要だと判断した際は、各自[公式のマニュアル](https://github.com/xArm-Developer/xarm_ros)から理解しこの資料の更新をお願いします.** 
 
 # 本資料の更新日及び更新者
@@ -32,19 +32,8 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
     * [3.3 xarm_controller](#33-xarm_controller)  
     * [3.4 xarm_bringup](#34-xarm_bringup)  
     * [3.5 ***xarm6_moveit_config***](#35-xarm6_moveit_config)  
-        * [5.5.1 Add Custom Tool Model For Moveit](#351-add-custom-tool-model-for-moveit)  
     * [3.6 ***xarm_planner***](#36-xarm_planner)  
     * [3.7 ***xarm_api/xarm_msgs (Online Planning Modes Added)***](#37-xarm_apixarm_msgs)  
-        * [5.7.1 Starting xArm by ROS service (***priority for the following operations***)](#starting-xarm-by-ros-service)  
-        * [5.7.2 Joint space or Cartesian space command example](#joint-space-or-cartesian-space-command-example)
-        * [5.7.3 Tool/Controller I/O Operations](#tool-io-operations)  
-        * [5.7.4 Getting status feedback](#getting-status-feedback)  
-        * [5.7.5 Setting Tool Center Point Offset](#setting-tool-center-point-offset)  
-        * [5.7.6 Clearing Errors](#clearing-errors)  
-        * [5.7.7 Gripper Control](#gripper-control)
-        * [5.7.8 Vacuum Gripper Control](#vacuum-gripper-control)
-        * [5.7.9 Tool Modbus communication](#tool-modbus-communication)
-        * [5.7.10 'report_type' argument](#report_type-argument)
 * [6. Mode Change(***Updated***)](#6-mode-change)
     * [6.1 Mode Explanation](#61-mode-explanation)
     * [6.2 Proper way to change modes](#62-proper-way-to-change-modes)
@@ -265,50 +254,51 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
 
 ここも荒木は弄ってないのでよく分かりません. 
 
-#### Starting xArm by ROS service:
+#### ROSのサービスからも動かせる！:
+Rviz&moveitではなく、コマンドからも動かすことが可能です.
 
-&ensp;&ensp;First startup the service server for xarm7, ip address is just an example:  
+&ensp;&ensp;まず、xarm6 のサービスサーバーを起動します:  
 ```bash
-$ roslaunch xarm_bringup xarm7_server.launch robot_ip:=192.168.1.128 report_type:=normal
+$ roslaunch xarm_bringup xarm6_server.launch robot_ip:=192.168.1.217 report_type:=normal
 ```
-The argument `report_type` is explained [here](#report_type-argument).  
 
-&ensp;&ensp;Then make sure all the servo motors are enabled, refer to [SetAxis.srv](/xarm_msgs/srv/SetAxis.srv):
+&ensp;&ensp;次に、すべてのサーボモーターが有効になっていることを確認します:
 ```bash
-$ rosservice call /xarm/motion_ctrl 8 1
+$ rosservice call /xarm/motion_ctrl 7 1
 ```
-&ensp;&ensp;Before any motion commands, set proper robot mode(0: POSE) and state(0: READY) ***in order***, refer to [SetInt16.srv](/xarm_msgs/srv/SetInt16.srv):    
+&ensp;&ensp;モーションコマンドを実行する前に、ロボットモード（0：POSE）と状態（0：READY）を 設定  :    
 ```bash
+$ rosservice call /xarm/clear_err
 $ rosservice call /xarm/set_mode 0
 
 $ rosservice call /xarm/set_state 0
 ```
+これで、xArmが「カチカチカチ」となるはずです.(この辺は使ってないので自信ないです)
 
-#### Joint space or Cartesian space command example:
-&ensp;&ensp;Please note that all the angles must use the unit of ***radian***. All motion commands use the same type of srv request: [Move.srv](./xarm_msgs/srv/Move.srv).   
+#### 位置制御の例:
+&ensp;&ensp;角度は全て ***radian*** で指定することに注意してください.
 
-##### 1. Joint space motion:
-&ensp;&ensp;To call joint space motion with max speed 0.35 rad/s and acceleration 7 rad/s^2:   
+##### 1. 関節空間運動:
+&ensp;&ensp;最大速度 0.35 rad/s および加速度 7 rad/s^2 でジョイント スペース モーションを呼び出すには::   
 ```bash
 $ rosservice call /xarm/move_joint [0,0,0,0,0,0,0] 0.35 7 0 0
 ```
-&ensp;&ensp;To go back to home (all joints at 0 rad) position with max speed 0.35 rad/s and acceleration 7 rad/s^2:  
+&ensp;&ensp;最大速度 0.35 rad/s、加速度 7 rad/s^2 でホーム (すべてのジョイントが 0 rad) 位置に戻るには::  
 ```bash
 $ rosservice call /xarm/go_home [] 0.35 7 0 0
 ```
-##### 2. Cartesian space motion in Base coordinate:
-&ensp;&ensp;To call Cartesian motion to the target expressed in robot BASE Coordinate, with max speed 200 mm/s and acceleration 2000 mm/s^2:
+##### 2. ベース座標でのデカルト空間の動き:
+&ensp;&ensp;最大速度 200 mm/s および加速度 2000 mm/s^2 で、ロボットの BASE 座標で表されたターゲットに直交運動を呼び出すには:
 ```bash
 $ rosservice call /xarm/move_line [250,100,300,3.14,0,0] 200 2000 0 0
 ```
-##### 3. Cartesian space motion in Tool coordinate:
-&ensp;&ensp;To call Cartesian motion expressed in robot TOOL Coordinate, with max speed 200 mm/s and acceleration 2000 mm/s^2, the following will move a **relative motion** (delta_x=50mm, delta_y=100mm, delta_z=100mm) along the current Tool coordinate, no orientation change:
-```bash
+##### 3. ツール座標でのデカルト空間の動き:
+&ensp;&ensp; ロボット ツール座標で表現された直交運動を呼び出すには、最大速度 200 mm/s および加速度 2000 mm/s^2 で、以下は現在のツールに沿って相対運動(delta_x=50mm、delta_y=100mm、delta_z=100mm)を移動します。座標、方向変更なし:
 $ rosservice call /xarm/move_line_tool [50,100,100,0,0,0] 200 2000 0 0
 ```
-##### 4. Cartesian space motion in Axis-angle orientation:
-&ensp;&ensp;Corresponding service for Axis-angle motion is [MoveAxisAngle.srv](./xarm_msgs/srv/MoveAxisAngle.srv). Please pay attention to the last two arguments: "**coord**" is 0 for motion with respect to (w.r.t.) Arm base coordinate system, and 1 for motion w.r.t. Tool coordinate system. "**relative**" is 0 for absolute target position w.r.t. specified coordinate system, and 1 for relative target position.  
-&ensp;&ensp;For example: to move 1.0 radian relatively around tool-frame Z-axis: 
+##### 4.  軸角方向のデカルト空間運動:
+&ensp;&ensp;  軸角度モーションに対応するサービスはMoveAxisAngle.srvです。最後の 2 つの引数に注意してください。「coord」は、(wrt) アーム ベース座標系に対するモーションの場合は 0、ツール座標系に対するモーションの場合は 1 です。" relative " は、指定された座標系に対する絶対ターゲット位置の場合は 0、相対ターゲット位置の場合は 1 です。
+  例: ツール フレームの Z 軸を中心に相対的に 1.0 ラジアン移動するには: 
 ```bash
 $ rosservice call /xarm/move_line_aa "pose: [0, 0, 0, 0, 0, 1.0]
 mvvelo: 30.0
@@ -319,227 +309,42 @@ relative: 1"
 ret: 0
 message: "move_line_aa, ret = 0"
 ```
-Or
+または
 ```bash
 $ rosservice call /xarm/move_line_aa [0,0,0,0,0,1.0] 30.0 100.0 0.0 1 1
 ```   
-&ensp;&ensp;"**mvtime**" is not meaningful in this command, just set it to 0. Another example: in base-frame, to move 122mm relatively along Y-axis, and rotate around X-axis for -0.5 radians:  
-```bash
+&ensp;&ensp; " mvtime " はこのコマンドでは意味がありません。単に 0 に設定してください。別の例: base-frame で、Y 軸に沿って 122mm 相対的に移動し、X 軸を中心に -0.5 ラジアン回転します。
 $ rosservice call /xarm/move_line_aa [0,122,0,-0.5,0,0] 30.0 100.0 0.0 0 1  
 ```
 
-##### 5. Joint velocity control:
-&ensp;&ensp;(**xArm controller firmware version >= 1.6.8** required) If controlling joint velocity is desired, first switch to **Mode 4** as descriped in [mode change section](#6-mode-change). Please check the [MoveVelo.srv](./xarm_msgs/srv/MoveVelo.srv) first to understand the meanings of parameters reqired. If more than one joint are to move, set **jnt_sync** to 1 for synchronized acceleration/deceleration for all joints in motion, and if jnt_sync is 0, each joint will reach to its target velocity as fast as possible. ***coord*** parameter is not used here, just set it to 0. For example: 
-```bash
-# NO Timed-out version (will not stop until all-zero velocity command received!):
-$ rosservice call /xarm/velo_move_joint [0.1,-0.1,0,0,0,-0.3] 1 0
-# With Timed-out version(controller firmware version >= 1.8.0): (if next velocity command not received within 0.2 seconds, xArm will stop)  
-$ rosservice call /xarm/velo_move_joint_timed [0.1,-0.1,0,0,0,-0.3] 1 0 0.2
-``` 
-will command the joints (for xArm6) to move in specified angular velocities (in rad/s) and they will reach to target velocities synchronously. The maximum joint acceleration can also be configured by (unit: rad/s^2):  
-```bash
-$ rosservice call /xarm/set_max_acc_joint 10.0  (maximum: 20.0 rad/s^2)
-``` 
 
-##### 6. Cartesian velocity control:
-&ensp;&ensp;(**xArm controller firmware version >= 1.6.8** required) If controlling linar velocity of TCP towards certain direction is desired, first switch to **Mode 5** as descriped in [mode change section](#6-mode-change). Please check the [MoveVelo.srv](./xarm_msgs/srv/MoveVelo.srv) first to understand the meanings of parameters reqired. Set **coord** to 0 for motion in world/base coordinate system and 1 for tool coordinate system. ***jnt_sync*** parameter is not used here, just set it to 0. For example: 
-```bash
-# NO Timed-out version (will not stop until all-zero velocity command received!):  
-$ rosservice call /xarm/velo_move_line [30,0,0,0,0,0] 0 1  
-# With Timed-out version(controller firmware version >= 1.8.0): (if next velocity command not received within 0.2 seconds, xArm will stop)  
-$ rosservice call /xarm/velo_move_line_timed [30,0,0,0,0,0] 0 1 0.2
-``` 
-will command xArm TCP move along X-axis of TOOL coordinate system with speed of 30 mm/s. The maximum linear acceleration can also be configured by (unit: mm/s^2):  
-```bash
-$ rosservice call /xarm/set_max_acc_line 5000.0  (maximum: 50000 mm/s^2)
-``` 
+####ステータス フィードバックの取得:
+&ensp;&ensp;  「xarm7_server.launch」を実行して実際の xArm ロボットに接続すると、ユーザーはトピック「xarm/xarm_states」にサブスクライブして、関節角度、TCP 位置、エラー/警告コードなどを含む現在のロボットの状態に関するフィードバック情報を得ることができます。コンテンツの詳細については、 RobotMsg.msgを参照してください。
+  別のオプションは、「/joint_states」トピックをサブスクライブすることです。これはJointState.msgでレポートされますが、現在は「位置」フィールドのみが有効です; 「速度」は、隣接する 2 つの位置データに基づくフィルタリングされていない数値微分であり、「努力」フィードバックは、直接トルク センサーからではなく、電流ベースの推定値であるため、参考用です。パフォーマンスを考慮して、上記 2 つのトピックのデフォルトの更新レートは5Hzに設定されています。レポートの内容と頻度には他のオプションがあります。report_type 引数を参照してください。![xArmFrames](https://user-images.githubusercontent.com/86779771/209673725-c1877d63-0cdd-4a2d-9bad-206d95fc360b.png)
 
-For angular motion in orientation, please note the velocity is specified as **axis-angular_velocity** elements. That is, [the unit rotation axis vector] multiplied by [rotation velocity value(scalar)]. For example, 
-```bash
-# NO Timed-out version (will not stop until all-zero velocity command received!):
-$ rosservice call /xarm/velo_move_line [0,0,0,0.707,0,0] 0 0
-# With Timed-out version(controller firmware version >= 1.8.0): (if next velocity command not received within 0.2 seconds, xArm will stop)  
-$ rosservice call /xarm/velo_move_line_timed [0,0,0,0.707,0,0] 0 0 0.2
-``` 
-This will command TCP to rotate along X-axis in BASE coordinates at about 45 degrees/sec. The maximum acceleration for orientation change is fixed.  
-
-Please Note: For no Timed-out version services: velocity motion can be stopped by either giving **all 0 velocity** command, or setting **state to 4(STOP)** and 0(READY) later for next motion. However, **timed-out versions are more recommended for use**, since it can be safe if network comminication or user program fails, controller firmware needs to be updated to v1.8.0 or later.  
-
-#### Motion service Return:
-&ensp;&ensp;Please Note the above motion services will **return immediately** by default. If you wish to return until actual motion is finished, set the ros parameter **"/xarm/wait_for_finish"** to be **true** in advance. That is:  
-```bash
-$ rosparam set /xarm/wait_for_finish true
-```   
-&ensp;&ensp;Upon success, 0 will be returned. If any error occurs, 1 will be returned.
-
-#### Tool I/O Operations:
-
-&ensp;&ensp;We provide 2 digital, 2 analog input port and 2 digital output signals at the end I/O connector.  
-##### 1. To get current 2 DIGITAL input states:  
-```bash
-$ rosservice call /xarm/get_digital_in
-```
-##### 2. To get one of the ANALOG input value: 
-```bash
-$ rosservice call /xarm/get_analog_in 1  (last argument: port number, can only be 1 or 2)
-```
-##### 3. To set one of the Digital output:
-```bash
-$ rosservice call /xarm/set_digital_out 2 1  (Setting output 2 to be 1)
-```
-&ensp;&ensp;You have to make sure the operation is successful by checking responding "ret" to be 0.
-
-#### Controller I/O Operations:
-
-&ensp;&ensp;We provide 8/16 digital input and 8/16 digital output ports at controller box for general usage.  
-
-##### 1. To get one of the controller DIGITAL input state:  
-```bash
-$ rosservice call /xarm/get_controller_din io_num (Notice: from 1 to 8, for CI0~CI7; from 9 to 16, for DI0~DI7[if any])  
-```
-##### 2. To set one of the controller DIGITAL output:
-```bash
-$ rosservice call /xarm/set_controller_dout io_num (Notice: from 1 to 8, for CO0~CO7; from 9 to 16, for DI0~DI7[if any]) logic (0 or 1) 
-```
-&ensp;&ensp;For example:  
-```bash
-$ rosservice call /xarm/set_controller_dout 5 1  (Setting output 5 [lable C04] to be 1)
-```
-##### 3. To get one of the controller ANALOG input:
-```bash
-$ rosservice call /xarm/get_controller_ain port_num  (Notice: from 1 to 2, for AI0~AI1)
-```
-##### 4. To set one of the controller ANALOG output:
-```bash
-$ rosservice call /xarm/set_controller_aout port_num (Notice: from 1 to 2, for AO0~AO1) analog_value
-```
-&ensp;&ensp;For example:  
-```bash
-$ rosservice call /xarm/set_controller_aout 2 3.3  (Setting port AO1 to be 3.3)
-```
-&ensp;&ensp;You have to make sure the operation is successful by checking responding "ret" to be 0.
-
-#### Getting status feedback:
-&ensp;&ensp;Having connected with a real xArm robot by running 'xarm7_server.launch', user can subscribe to the topic ***"xarm/xarm_states"*** for feedback information about current robot states, including joint angles, TCP position, error/warning code, etc. Refer to [RobotMsg.msg](./xarm_msgs/msg/RobotMsg.msg) for content details.  
-&ensp;&ensp;Another option is subscribing to ***"/joint_states"*** topic, which is reporting in [JointState.msg](http://docs.ros.org/jade/api/sensor_msgs/html/msg/JointState.html), however, currently ***only "position" field is valid***; "velocity" is non-filtered numerical differentiation based on 2 adjacent position data, and "effort" feedback are current-based estimated values, not from direct torque sensor, so they are just for reference.
-&ensp;&ensp;In consideration of performance, default update rate of above two topics are set at ***5Hz***. The report content and frequency have other options, refer to [report_type argument](#report_type-argument)  
 
 #### Setting Tool Center Point Offset(only effective for xarm_api ROS service control):
-&ensp;&ensp;The tool tip point offset values can be set by calling service "/xarm/set_tcp_offset". Refer to the figure below, please note this offset coordinate is expressed with respect to ***default tool frame*** (Frame B), which is located at flange center, with roll, pitch, yaw rotations of (PI, 0, 0) from base frame (Frame A).   
-![xArmFrames](./doc/xArmFrames.png)  
-&ensp;&ensp;For example:  
+&ensp;&ensp;ツール チップ ポイントのオフセット値は、サービス「/xarm/set_tcp_offset」を呼び出すことで設定できます。下の図を参照してください。このオフセット座標は、ベース フレームから (PI, 0, 0) のロール、ピッチ、ヨー回転で、フランジの中心に位置する既定のツール フレーム(フレーム B) に対して表されていることに注意してください (フレーム A)。   例えば：
+![Uploading xArmFrames.png…]()  
 ```bash
 $ rosservice call /xarm/set_tcp_offset 0 0 20 0 0 0
 ```
-&ensp;&ensp;This is to set tool frame position offset (x = 0 mm, y = 0 mm, z = 20 mm), and orientation (RPY) offset of ( 0, 0, 0 ) radians with respect to initial tool frame (Frame B in picture). ***Note this offset might be overwritten by xArm Stdudio if it is not consistent with the default value set in studio!*** It is recommended to do the same TCP default offset configuration in xArm studio if you want to use it alongside with ros service control.  
+&ensp;&ensp; これは、ツール フレームの位置オフセット (x = 0 mm、y = 0 mm、z = 20 mm) と、最初のツール フレーム (フレーム B のフレーム B写真）。このオフセットは、スタジオで設定されたデフォルト値と一致しない場合、xArm Stdudio によって上書きされる可能性があることに注意してください。ros サービス コントロールと一緒に使用する場合は、xArm studio で同じ TCP デフォルト オフセット設定を行うことをお勧めします。  
 
-#### Clearing Errors:
-&ensp;&ensp;Sometimes controller may report error or warnings that would affect execution of further commands. The reasons may be power loss, position/speed limit violation, planning errors, etc. It needs additional intervention to clear. User can check error code in the message of topic ***"xarm/xarm_states"*** . 
+#### エラーのクリア:
+&ensp;&ensp;コントローラーは、その後のコマンドの実行に影響を与えるエラーまたは警告を報告する場合があります。理由としては、電力損失、位置/速度制限違反、計画エラーなどが考えられます。クリアするには追加の介入が必要です。ユーザーは、トピック"xarm/xarm_states"のメッセージでエラー コードを確認できます。
 ```bash
 $ rostopic echo /xarm/xarm_states
 ```
-&ensp;&ensp;If it is non-zero, the corresponding reason can be found out in the user manual. After solving the problem, this error satus can be removed by calling service ***"/xarm/clear_err"*** with empty argument.
+&ensp;&ensp;ゼロ以外の場合、対応する理由はユーザーマニュアルで見つけることができます。問題を解決した後、空の引数でサービス"/xarm/clear_err"を呼び出すことにより、このエラー状態を取り除くことができます。
 ```bash
 $ rosservice call /xarm/clear_err
 ```
-&ensp;&ensp;If using Moveit!, call "**/xarm/moveit_clear_err**" instead to avoid the need of setting mode 1 again manually. 
+&ensp;&ensp;  Moveit! を使用している場合は、代わりに " /xarm/moveit_clear_err " を呼び出して、手動でモード 1 を再度設定する必要がないようにしてください。
 ```bash
 $ rosservice call /xarm/moveit_clear_err
 ```
-
-&ensp;&ensp;After calling this service, please ***check the err status again*** in 'xarm/xarm_states', if it becomes 0, the clearing is successful. Otherwise, it means the error/exception is not properly solved. If clearing error is successful, remember to ***set robot state to 0*** to make it ready to move again!   
-
-#### Gripper Control:
-&ensp;&ensp; If xArm Gripper (from UFACTORY) is attached to the tool end, the following services/actions can be called to operate or check the gripper.  
-
-##### 1. Gripper services:  
-(1) First enable the griper and configure the grasp speed:  
-```bash
-$ rosservice call /xarm/gripper_config 1500
-```
-&ensp;&ensp; Proper range of the speed is ***from 1 to 5000***. 1500 is used as an example. 'ret' value is 0 for success.  
-(2) Give position command (open distance) to xArm gripper:  
-```bash
-$ rosservice call /xarm/gripper_move 500
-```
-&ensp;&ensp; Proper range of the open distance is ***from 0 to 850***. 0 is closed, 850 is fully open. 500 is used as an example. 'ret' value is 0 for success.  
-
-(3) To get the current status (position and error_code) of xArm gripper:
-```bash
-$ rosservice call /xarm/gripper_state
-```
-&ensp;&ensp; If error code is non-zero, please refer to user manual for the cause of error, the "/xarm/clear_err" service can still be used to clear the error code of xArm Gripper.  
-
-##### 2. Gripper action:
-&ensp;&ensp; The xArm gripper move action is defined in [Move.action](/xarm_gripper/action/Move.action). The goal consists of target pulse position and the pulse speed. By setting "true" of "**use_gripper_action**" argument in xarm_bringup/launch/xarm7_server.launch, the action server will be started. Gripper action can be called by:  
-```bash
-$ rostopic pub -1 /xarm/gripper_move/goal xarm_gripper/MoveActionGoal "header:
-  seq: 0
-  stamp:
-    secs: 0
-    nsecs: 0
-  frame_id: ''
-goal_id:
-  stamp:
-    secs: 0
-    nsecs: 0
-  id: ''
-goal:
-  target_pulse: 500.0
-  pulse_speed: 1500.0"
-
-```
-&ensp;&ensp; Alternatively:
-```bash
-$ rosrun xarm_gripper gripper_client 500 1500 
-```
-
-#### Vacuum Gripper Control:
-&ensp;&ensp; If Vacuum Gripper (from UFACTORY) is attached to the tool end, the following service can be called to operate the vacuum gripper.  
-
-&ensp;&ensp;To turn on:  
-```bash
-$ rosservice call /xarm/vacuum_gripper_set 1
-```
-&ensp;&ensp;To turn off:  
-```bash
-$ rosservice call /xarm/vacuum_gripper_set 0
-```
-&ensp;&ensp;0 will be returned upon successful execution.  
-
-
-#### Tool Modbus communication:
-If modbus communication with the tool device is needed, please first set the proper baud rate and timeout parameters through the "xarm/config_tool_modbus" service (refer to [ConfigToolModbus.srv](/xarm_msgs/srv/ConfigToolModbus.srv)). For example: 
-```bash
-$ rosservice call /xarm/config_tool_modbus 115200 20
-```
-The above command will configure the tool modbus baudrate to be 115200 bps and timeout threshold to be 20 **ms**. It is not necessary to configure again if these properties are not changed afterwards. **Please note** the first time to change the baud rate may return 1 (with error code 28), in fact it will succeed if the device is properly connected and there is no other exsisting controller errors. You can clear the error and call it once more to check if 0 is returned. Currently, only the following baud rates (bps) are supported: [4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600, 1000000, 1500000, 2000000, 2500000].  
-
-Then the communication can be conducted like (refer to [SetToolModbus.srv](/xarm_msgs/srv/SetToolModbus.srv)):  
-```bash
-$ rosservice call /xarm/set_tool_modbus [0x01,0x06,0x00,0x0A,0x00,0x03] 6
-```
-First argument would be the uint8(unsigned char) data array to be sent to the modbus tool device, and second is the number of characters to be received as a response from the device. **This number should be the expected data byte length (without CRC bytes)**. For example, with some testing device the above instruction would reply:  
-```bash
-ret: 0
-respond_data: [1, 6, 0, 10, 0, 3]
-```
-and actual feedback data frame is: [0x01, 0x06, 0x00, 0x0A, 0x00, 0x03], with the length of 6 bytes.   
-
-#### "report_type" argument:
-When launching real xArm ROS applications, the argument "report_type" can be specified. It decides the state feedback rate and content. Refer to the [developer manual](https://www.ufactory.cc/_files/ugd/896670_1f106918b523404284c6916de025cf28.pdf) at chapter **2.1.6 Automatic Reporting Format** for the report contents of the three available report type (`normal/rich/dev`), default type using is "normal".  
-
-* For users who demand high-frequency feedback, `report_type:=dev` can be specified, then the topics `/xarm/xarm_states` and `/xarm/joint_states` will be published at **100Hz**.  
-* For users who want the gpio states being updated at `/xarm/controller_gpio_states` topic, please use `report_type:=rich`, since this reports the fullest information from the controller. As can be seen in developer manual.  
-* The report rate of the three types: 
-
-|   type   |    port No.   | Frequency |  GPIO topic   | F/T sensor topic | 
-|:---------|:-------------:|:---------:|:-------------:|-----------------:|
-|   normal |     30001     |    5Hz    | Not Available |   Not Available  |
-|   rich   |     30002     |    5Hz    |   Available   |     Available    | 
-|   dev    |     30003     |    100Hz  | Not Available |     Available    |
-
-Note: **GPIO topic** => `xarm/controller_gpio_states`. **F/T sensor topic** =>  `xarm/uf_ftsensor_ext_states` and `xarm/uf_ftsensor_raw_states`.
+&ensp;&ensp;  このサービスを呼び出した後、「xarm/xarm_states」でエラー ステータスをもう一度確認してください。0 になっていれば、クリアは成功です。それ以外の場合は、エラー/例外が適切に解決されていないことを意味します。エラーのクリアに成功した場合は、ロボットの状態を 0に設定して、再び移動できるようにすることを忘れないでください。
 
 # 6. Mode Change
 &ensp;&ensp;xArm may operate under different modes depending on different controling methods. Current mode can be checked in the message of topic "xarm/xarm_states". And there are circumstances that demand user to switch between operation modes. 
