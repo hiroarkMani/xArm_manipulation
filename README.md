@@ -8,10 +8,8 @@ xArmは基本的に動かし方は二つある．
 まず，大前提として，ROSの環境構築(本研究室サーバー\manilab\software\ROS練習)は終えておいてください．
 また，最低限のトピック通信の方法は学んでおいておくことを推奨します． 
 
-# Contents:  
-* [1. Introduction](#1-introduction)
-* [2. Update History](#2-update-summary)
-* [3. Preparations (**MUST DO**)](#3-preparations-before-using-this-package)
+# 目次:  
+* [1. 依存パッケージのインストール (**必須**)](#1-preparations-before-using-this-package)
 * [4. Get Started](#4-getting-started-with-xarm_ros)
 * [5. Package Description & Usage Guidance](#5-package-description--usage-guidance)
     * [5.1 xarm_description](#51-xarm_description)  
@@ -50,58 +48,23 @@ xArmは基本的に動かし方は二つある．
     * [8.5 Record and playback trajectories](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#5-run-recorded-trajectory-beta)
     * [8.6 Online target update for dynamic following task(**NEW**)](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#6-online-target-update)
 
-# 1. Introduction
-   &ensp;&ensp;This repository contains the 3D models of xArm series and demo packages for ROS development and simulations.Developing and testing environment: Ubuntu 16.04/18.04/20.04 + ROS Kinetic/Melodic/Noetic.  
-   ***Instructions below is based on xArm7, other model user can replace 'xarm7' with 'xarm6' or 'xarm5' where applicable.***
 
-# 2. Update Summary
-   This package is still under development and improvement, tests, bug fixes and new functions are to be updated regularly in the future. 
-   * Add xArm 7 description files, meshes and sample controller demos for ROS simulation and visualization.
-   * Add Moveit! planner support to control Gazebo virtual model and real xArm, but the two can not launch together.
-   * Add Direct control of real xArm through Moveit GUI, please use it with special care.
-   * Add xArm hardware interface to use ROS position_controllers/JointTrajectoryController on real robot.
-   * Add xArm 6 and xArm 5 simulation/real robot control support.
-   * Add simulation model of xArm Gripper.
-   * Add demo to control dual xArm6 through Moveit.
-   * Add xArm Gripper action control.
-   * Add xArm-with-gripper Moveit development packages.
-   * Add vacuum gripper model and xArm-with-vacuum-gripper Moveit development packages (under /examples dir).
-   * Thanks to [Microsoft IoT](https://github.com/ms-iot), xarm_ros can now be compiled and run on Windows platform.
-   * Add velocity control mode for joint and Cartesian space. (**xArm controller firmware version >= 1.6.8** required)  
-   * Add support for [custom tool model for Moveit](#551-add-custom-tool-model-for-moveit)  
-   * Add timed-out version of velocity control mode, for better safety consideration. (**xArm controller firmware version >= 1.8.0** required)  
-   * Add xArm Vision and RealSense D435i related demo. Migrate previous "xarm_device" into xarm_vision/camera_demo.
-   * xarm_controler (xarm_hw) no longer uses the SDK through service and topic, but directly calls the SDK interface.
-   * Add text interpretation for Controller Error code, returned from "get_err" service.
-   * Support UFACTORY Lite 6 model. 
-   * [Beta] Added two more torque-related topics (temporarily do not support third-party torque sensors): /xarm/uf_ftsensor_raw_states (raw data) and /xarm/uf_ftsensor_ext_states (filtered and compensated data)
-   * (2022-09-07) Add service(__set_tgpio_modbus_timeout__/__getset_tgpio_modbus_data__), choose whether to transparently transmit Modbus data according to different parameters
-   * (2022-09-07) Update submodule xarm-sdk to version 1.11.0
-   * (2022-11-16) Add torque related services: /xarm/ft_sensor_enable, /xarm/ft_sensor_app_set, /xarm/ft_sensor_set_zero, /xarm/ft_sensor_cali_load, /xarm/get_ft_sensor_error
+# 1. Preparations before using this package
 
-# 3. Preparations before using this package
+## 1.1 Install dependent package module
+まず、これらのパッケージをインストールしてください. 
 
-## 3.1 Install dependent package module
-   gazebo_ros_pkgs: <http://gazebosim.org/tutorials?tut=ros_installing> (if use Gazebo)   
-   ros_control: <http://wiki.ros.org/ros_control> (remember to select your correct ROS distribution)  
+   gazebo_ros_pkgs: <http://gazebosim.org/tutorials?tut=ros_installing> (ガゼボ(シミュレーション)使う人は必須)   
+   ros_control: <http://wiki.ros.org/ros_control> (ROSのバージョンに注意)  
    moveit_core: <https://moveit.ros.org/install/>  
    
-## 3.2 Go through the official tutorial documents
+## 1.2 これらパッケージの参考
 ROS Wiki: <http://wiki.ros.org/>  
 Gazebo Tutorial: <http://gazebosim.org/tutorials>  
 Gazebo ROS Control: <http://gazebosim.org/tutorials/?tut=ros_control>  
 Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>  
 
-## 3.3 Download the 'table' 3D model
-&ensp;&ensp;In Gazebo simulator, navigate through the model database for 'table' item, drag and place the 3D model inside the virtual environment. It will then be downloaded locally, as 'table' is needed for running the demo.
 
-## 3.4 Install "mimic_joint_plugin" for xArm Gripper simulation in Gazebo
-&ensp;&ensp;If simulating xArm Gripper in Gazebo is needed, [**mimic_joint_plugin**](https://github.com/roboticsgroup/roboticsgroup_gazebo_plugins) by courtesy of Konstantinos Chatzilygeroudis (@costashatz) needs to be installed in order to make the mimic joints behave normally in Gazebo. Usage of this plugin is inspired by [this tutorial](https://github.com/mintar/mimic_joint_gazebo_tutorial) from @mintar.   
-
-12/22/2020: Refer to issue #53, Please Note this plugin has recently been **deprecated**, if you plan to use [new version](https://github.com/roboticsgroup/roboticsgroup_upatras_gazebo_plugins), please change "libroboticsgroup_gazebo_mimic_joint_plugin.so" to "libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" in file: xarm_ros/xarm_gripper/urdf/xarm_gripper.gazebo.xacro  
-
-# 4. Getting started with 'xarm_ros'
-   
 ## 4.1 Create a catkin workspace. 
    &ensp;&ensp;If you already have a workspace, skip and move on to next part.
    Follow the instructions in [this page](http://wiki.ros.org/catkin/Tutorials/create_a_workspace). 
