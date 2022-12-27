@@ -6,11 +6,11 @@ xArmは基本的に動かし方は二つある．
 
 今回は，ROSでxArmを動かす方法について紹介する．
 まず，大前提として，ROSの環境構築(本研究室サーバー\manilab\software\ROS練習)は終えておいてください．
-また，最低限のトピック通信の方法は学んでおいておくことを推奨します． 
+また，最低限のトピック通信の方法は学んでおいておくことを推奨します．
 
 # 目次:  
 * [1. 依存パッケージのインストール (**必須**)](#1-preparations-before-using-this-package)
-* [4. Get Started](#4-getting-started-with-xarm_ros)
+* [2. Get Started](#2-getting-started-with-xarm_ros)
 * [5. Package Description & Usage Guidance](#5-package-description--usage-guidance)
     * [5.1 xarm_description](#51-xarm_description)  
     * [5.2 xarm_gazebo](#52-xarm_gazebo)  
@@ -51,7 +51,7 @@ xArmは基本的に動かし方は二つある．
 
 # 1. Preparations before using this package
 
-## 1.1 Install dependent package module
+## 1.1 依存パッケージのインストール
 まず、これらのパッケージをインストールしてください. 
 
    gazebo_ros_pkgs: <http://gazebosim.org/tutorials?tut=ros_installing> (ガゼボ(シミュレーション)使う人は必須)   
@@ -64,19 +64,20 @@ Gazebo Tutorial: <http://gazebosim.org/tutorials>
 Gazebo ROS Control: <http://gazebosim.org/tutorials/?tut=ros_control>  
 Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>  
 
+# 2. Getting started with xarm_ros
 
-## 4.1 Create a catkin workspace. 
+## 2.1 Create a catkin workspace. 
    &ensp;&ensp;If you already have a workspace, skip and move on to next part.
    Follow the instructions in [this page](http://wiki.ros.org/catkin/Tutorials/create_a_workspace). 
    Please note that this readme instruction assumes the user continues to use '~/catkin_ws' as directory of the workspace.
 
-## 4.2 Obtain the package
+## 2.2 Obtain the package
    ```bash
    $ cd ~/catkin_ws/src
    $ git clone https://github.com/xArm-Developer/xarm_ros.git --recursive
    ```
 
-## 4.2.1 update the package
+## 2.2.1 update the package
    ```bash
    $ cd ~/catkin_ws/src/xarm_ros
    $ git pull
@@ -84,7 +85,7 @@ Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>
    $ git submodule update --init --remote
    ```
 
-## 4.3 Install other dependent packages:
+## 2.3 Install other dependent packages:
    ```bash
    $ rosdep update
    $ rosdep check --from-paths . --ignore-src --rosdistro kinetic
@@ -95,12 +96,12 @@ Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>
    ```
    And chane 'kinetic' to the ROS distribution you use.  
 
-## 4.4 Build the code
+## 2.4 Build the code
    ```bash
    $ cd ~/catkin_ws
    $ catkin_make
    ```
-## 4.5 Source the setup script
+## 2.5 Source the setup script
 ```bash
 $ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 ```
@@ -108,12 +109,12 @@ Skip above operation if you already have that inside your ~/.bashrc. Then do:
 ```bash
 $ source ~/.bashrc
 ```
-## 4.6 First try out in RViz:
+## 2.6 First try out in RViz:
 ```bash
 $ roslaunch xarm_description xarm7_rviz_display.launch
 ```
 
-## 4.7 Run the demo in Gazebo simulator
+## 2.7 Run the demo in Gazebo simulator
    ```bash
    $ roslaunch xarm_gazebo xarm7_beside_table.launch [run_demo:=true] [add_gripper:=true] [add_vacuum_gripper:=true] 
    ```
