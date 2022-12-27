@@ -34,9 +34,9 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
     * [3.5 ***xarm6_moveit_config***](#35-xarm6_moveit_config)  
     * [3.6 ***xarm_planner***](#36-xarm_planner)  
     * [3.7 ***xarm_api/xarm_msgs (Online Planning Modes Added)***](#37-xarm_apixarm_msgs)  
-* [4. 制御モードの変更](#6-mode-change)
-    * [4.1 Mode Explanation](#61-mode-explanation)
-    * [4.2 Proper way to change modes](#62-proper-way-to-change-modes)
+* [4. 制御モードの変更](#4-mode-change)
+    * [4.1 Mode Explanation](#41-mode-explanation)
+    * [4.2 Proper way to change modes](#42-proper-way-to-change-modes)
 
 # 1. Preparations before using this package
 
