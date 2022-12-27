@@ -9,13 +9,13 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 まず，大前提として，**ROSの環境構築(本研究室サーバー/manilab/software/ROS練習)** は終えておいてください．Teamsにも上がってるのでスマホで確認できます.
 また，最低限のトピック通信の方法は学んでおいておくことを推奨します．
 
-本資料の序盤部分は[公式のマニュアル](https://github.com/xArm-Developer/xarm_ros)に書いてあることをそのまま日本語化して、必要なものだけを載せただけです.もし何か分からないことあれば、M2の荒木に聞いてください.
+本資料の序盤部分は[公式のマニュアル](https://github.com/xArm-Developer/xarm_ros)に書いてあることをそのまま日本語化して、必要なものだけを載せただけです.もし何か分からないことあれば、最新の更新者に聞いてください.
 
 ※コマンドすべて頭文字に$が入っているので実行する前に取り除いてください.　
 
 # 本資料の更新日及び更新者
 後輩たちがxArmを使った研究を行う際に、「アームの使い方分からない！」とならないようにする為に作成した資料です. 
-もし、xarm等のパッケージに更新があり、本資料ではエラーが出てしまう場合は、お手数ですが更新をお願いします.github分からないかもしれないですけど、なんとなくこの資料のRawデータ見ればわかるはずですので頑張ってください.
+もし、xarm等のパッケージに更新があり、本資料ではエラーが出てしまう場合は、お手数ですが更新をお願いします.github分からないかもしれないですけど、なんとなくこの資料のRawデータ見ればわかるはずですので頑張ってください. また、最初の編集者(荒木)は広く浅くなので、所々解説が雑です. 深い部分まで理解が出来た方はドンドン書き加えて、間違ってたら直してください！
 |更新日|氏名|配属|mail(任意)|
 | ------------- | ------------- |------------- | ------------- |
 | 2020/12/27| 荒木 博揚 |2020(15期生)| hiroark.mani@gmail.com |
@@ -151,10 +151,11 @@ $ roslaunch xarm_description xarm6_rviz_display.launch
    
 ## 3.1 xarm_description
    &ensp;&ensp;xArmの記述ファイル. メッシュファイル、gazeboのプラグイン設定など. xarmの記述ファイルは、他のパッケージが依存しているので、変更することはお勧めしない.
-   URDFファイルなど編集する場合はここ. 編集の方法などは後述.
+   URDFファイルなど編集する場合(研究室の環境情報(机等)を書きたい場合)はここを弄ります. 編集の方法などは後述.
 
 ## 3.2 xarm_gazebo
-   &ensp;&ensp;Gazebo world description files and simulation launch files. User can add or build their own models in the simulation world file.
+   &ensp;&ensp;Gazeboワールド記述ファイル、シミュレーション起動ファイル. シミュレーションワールドファイルには、ユーザが独自にモデルを追加・構築することができる. 
+   らしいんですけど、実機で試行錯誤していた荒木には詳しいことはわかりません.(Gazeboで頑張る方は更新お願いします)
 
 ## 3.3 xarm_controller
    &ensp;&ensp;Controller configurations, hardware_interface, robot command executable source, scripts and launch files. User can deploy their program inside this package or create their own. ***Note that*** effort controllers defined in xarm_controller/config are just examples for simulation purpose, when controlling the real arm, only 'position_controllers/JointTrajectoryController' interface is provided. User can add their self-defined controllers as well, refer to: http://wiki.ros.org/ros_control (controllers)
