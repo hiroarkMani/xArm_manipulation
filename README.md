@@ -7,7 +7,9 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 今回は，2のROSでxArmを動かす方法について紹介する．ROS2ではないのでROS2利用者は、ほんの参考程度に. できれば、ROS2バージョンも後輩たちの為に作ってもらえると助かります.
 
 まず，大前提として，**ROSの環境構築(本研究室サーバー/manilab/software/ROS練習)** は終えておいてください．Teamsにも上がってるのでスマホで確認できます.
-また，最低限のトピック通信の方法は学んでおいておくことを推奨します．本資料の序盤部分は[公式のマニュアル](https://github.com/xArm-Developer/xarm_ros)に書いてあることをそのまま日本語化して、必要なものだけを載せただけです.もし何か分からないことあれば、M2の荒木に聞いてください.
+また，最低限のトピック通信の方法は学んでおいておくことを推奨します．
+
+本資料の序盤部分は[公式のマニュアル](https://github.com/xArm-Developer/xarm_ros)に書いてあることをそのまま日本語化して、必要なものだけを載せただけです.もし何か分からないことあれば、M2の荒木に聞いてください.
 
 ※コマンドすべて頭文字に$が入っているので実行する前に取り除いてください.　
 
@@ -124,9 +126,19 @@ $ roslaunch xarm_description xarm6_rviz_display.launch
    ```bash
    $ roslaunch xarm_gazebo xarm6_beside_table.launch [run_demo:=true] [add_gripper:=true] [add_vacuum_gripper:=true] 
    ```
+こんな表示になれば成功
+![Screenshot from 2022-12-27 20-03-22](https://user-images.githubusercontent.com/86779771/209657584-aa987b5b-ff25-4aa6-9b32-dce5e9c54886.png)
 
-上手く行かない場合は、エラー文をググって見てください. もしかしたら、これは失敗するかも？？
-
+端末の方で、
+```bash
+[ERROR] [1672138940.247346024, 0.356000000]: No p gain specified for pid.  Namespace: /xarm/gazebo_ros_control/pid_gains/joint1
+[ERROR] [1672138940.248592258, 0.356000000]: No p gain specified for pid.  Namespace: /xarm/gazebo_ros_control/pid_gains/joint2
+[ERROR] [1672138940.249474143, 0.356000000]: No p gain specified for pid.  Namespace: /xarm/gazebo_ros_control/pid_gains/joint3
+[ERROR] [1672138940.250319620, 0.356000000]: No p gain specified for pid.  Namespace: /xarm/gazebo_ros_control/pid_gains/joint4
+[ERROR] [1672138940.251141814, 0.356000000]: No p gain specified for pid.  Namespace: /xarm/gazebo_ros_control/pid_gains/joint5
+[ERROR] [1672138940.251953284, 0.356000000]: No p gain specified for pid.  Namespace: /xarm/gazebo_ros_control/pid_gains/joint6
+```
+こういうエラーが出ると思いますが、これは無視して結構です. (上手く消せたら更新お願いします〜　by荒木)
 # 3. Package description & Usage Guidance
    
 ## 3.1 xarm_description
