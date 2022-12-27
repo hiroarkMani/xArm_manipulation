@@ -67,10 +67,10 @@ Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>
 
 # 2. Getting started with xarm_ros
 
-## 2.1 Create a catkin workspace. 
-   &ensp;&ensp;If you already have a workspace, skip and move on to next part.
-   Follow the instructions in [this page](http://wiki.ros.org/catkin/Tutorials/create_a_workspace). 
-   Please note that this readme instruction assumes the user continues to use '~/catkin_ws' as directory of the workspace.
+## 2.1 ワークスペースの作成. 
+   &ensp;&ensp;catkin_wsはROSの環境構築で作ったはずなのでここは飛ばしてください.
+   もし違うワークスペースでやりたいという人は[このページ](http://wiki.ros.org/catkin/Tutorials/create_a_workspace)を参考に新たにワークスペースを作成してください. 
+   この資料内でのディレクトリ移動等のコマンドはすべて"catkin_ws"を使っているので、新たに作った人は各自書き換えてください.
 
 ## 2.2 Obtain the package
    ```bash
