@@ -31,7 +31,8 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
     * [3.2 xarm_gazebo](#32-xarm_gazebo)  
     * [3.3 xarm_controller](#33-xarm_controller)  
     * [3.4 xarm_bringup](#34-xarm_bringup)  
-    * [3.5 xarm6_moveit_config(**重要**)](#35-xarm6_moveit_config)  
+    * [3.5 xarm6_moveit_config(**重要**)](#35-xarm6_moveit_config)
+    ←ぶっちゃけココ出来てしまえばいいよ！！他は知っておいたらいいかも程度.  
     * [3.6 xarm_planner](#36-xarm_planner)  
     * [3.7 xarm_api/xarm_msgs (Online Planning Modes Added)](#37-xarm_apixarm_msgs)  
 * [4. 制御モードの変更](#4-mode-change)
