@@ -37,21 +37,6 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 * [4. 制御モードの変更](#6-mode-change)
     * [4.1 Mode Explanation](#61-mode-explanation)
     * [4.2 Proper way to change modes](#62-proper-way-to-change-modes)
-* [7. xArm Vision](#7-xarm-vision)
-    * [7.1 Installation of dependent packages](#71-installation-of-dependent-packages)
-    * [7.2 Hand-eye Calibration Demo](#72-hand-eye-calibration-demo)
-    * [7.3 Vision Guided Grasping Demo](#73-vision-guided-grasping-demo)
-    * [7.4 Adding RealSense D435i model to simulated xArm](#74-adding-realsense-d435i-model-to-simulated-xarm)
-    * [7.5 Color Cube Grasping Demo (Simulation + Real Hardware)](#75-color-cube-grasping-demo)
-* [8. Other Examples](#8-other-examples)
-    * [8.0 An example of demonstrating redundancy resolution using MoveIt](https://github.com/xArm-Developer/xarm_ros/tree/master/examples/xarm7_redundancy_res)
-    * [8.1 Multi-xArm5 (separate control)](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#1-multi_xarm5-controlled-separately)
-    * [8.2 Servo_Cartesian](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#2-servo_cartesian-streamed-cartesian-trajectory)
-    * [8.3 Servo_Joint](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#3-servo_joint-streamed-joint-space-trajectory)
-    * [8.4 Dual xArm6 controlled with one moveGroup node](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#4-dual-xarm6-controlled-with-one-movegroup-node)
-    * [8.5 Record and playback trajectories](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#5-run-recorded-trajectory-beta)
-    * [8.6 Online target update for dynamic following task(**NEW**)](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#6-online-target-update)
-
 
 # 1. Preparations before using this package
 
@@ -346,10 +331,10 @@ $ rosservice call /xarm/moveit_clear_err
 ```
 &ensp;&ensp;  このサービスを呼び出した後、「xarm/xarm_states」でエラー ステータスをもう一度確認してください。0 になっていれば、クリアは成功です。それ以外の場合は、エラー/例外が適切に解決されていないことを意味します。エラーのクリアに成功した場合は、ロボットの状態を 0に設定して、再び移動できるようにすることを忘れないでください。
 
-# 6. Mode Change
+# 4. Mode Change
 &ensp;&ensp;xArm may operate under different modes depending on different controling methods. Current mode can be checked in the message of topic "xarm/xarm_states". And there are circumstances that demand user to switch between operation modes. 
 
-### 6.1 Mode Explanation
+### 4.1 Mode Explanation
 
 &ensp;&ensp; ***Mode 0*** : xArm controller (Position) mode.  
 &ensp;&ensp; ***Mode 1*** : External trajectory planner (position) mode.  
@@ -364,7 +349,7 @@ $ rosservice call /xarm/moveit_clear_err
 ってたくさん書いてるけそよくわからないからモード0使ってます(荒木). この姿勢できるかなーだったり、ティーチングで覚えさせたいとかあればモード2にすると良さそうかな？
 
 
-### 6.2 モードの変更方法:  
+### 4.2 モードの変更方法:  
 &ensp;&ensp;  Moveit! の実行中に衝突やその他のエラーが発生した場合。計画された軌道、モードは安全のために 1 からデフォルトのモード 0 に自動的に切り替わり、ロボットの状態は 4 (エラー状態) に変わります。モードを 1 に戻さない限り、ロボットは Moveit コマンドを再度実行できません。次の手順に従って、Moveit コントロールを再度有効にします。  
 
 &ensp;&ensp;(1)衝突の原因となっている物体が取り除かれていることを確認します。  
@@ -378,123 +363,3 @@ $ rosservice call /xarm/set_mode 2
 
 $ rosservice call /xarm/set_state 0
 ```
-
-# 7. xArm Vision
-For simple demonstrations of vision application development with xArm, including hand-eye calibration and object detection and grasping. Examples are based on [Intel RealSense D435i](https://www.intelrealsense.com/depth-camera-d435i/) depth camera.
-
-## 7.1 Installation of dependent packages:
-
-First enter the workspace source directory:
-```bash
-$ cd ~/catkin_ws/src/
-```
-
-### 7.1.1 Install RealSense developer library and ROS package： 
-Please refer to the installation steps at [official webpage](https://github.com/IntelRealSense/realsense-ros).
-
-### 7.1.2 Install 'aruco_ros', for hand-eye calibration：
-Refer to [official Github](https://github.com/pal-robotics/aruco_ros):
-```bash
-$ git clone -b kinetic-devel https://github.com/pal-robotics/aruco_ros.git
-```
-### 7.1.3 Install 'easy_handeye', for hand-eye calibration：
-Refer to [official Github](https://github.com/IFL-CAMP/easy_handeye):
-```bash
-$ git clone https://github.com/IFL-CAMP/easy_handeye
-``` 
-### 7.1.4 Install 'vision_visp' supporting package：
-Refer to [official Github](https://github.com/lagadic/vision_visp):
-```bash
-$ git clone -b kinetic-devel https://github.com/lagadic/vision_visp.git
-```
-### 7.1.5 Install 'find_object_2d', for object detection：
-Refer to [official Github](https://github.com/introlab/find-object/tree/kinetic-devel):
-```bash
-$ sudo apt-get install ros-kinetic-find-object-2d
-```
-### 7.1.6 Install other dependencies：
-```bash
-$ cd ~/catkin_ws
-```
-Then follow chapter [4.3](#43-install-other-dependent-packages).
-
-### 7.1.7 Build the whole workspace：
-```bash
-$ catkin_make
-```
-
-## 7.2 Hand-eye Calibration Demo：
-If attaching RealSense D435i camera at tool end of xArm, with mechanical adapters, making a "**eye-on-hand**"(or eye-in-hand) configuration，the following launch file can be used and modified for hand-eye calibration: (make sure the camera communication is functional and robot is properly switched on)
-```bash
-$ roslaunch d435i_xarm_setup d435i_xarm_auto_calib.launch robot_dof:=your_xArm_DOF robot_ip:=your_xArm_IP
-```
-The `aruco Marker` used inside can be downloaded [here](https://chev.me/arucogen/), please remember the `marker ID` and `marker size` and modify them in the launch file accordingly. Refer to [official](https://github.com/IFL-CAMP/easy_handeye#calibration)or other usage instructions online and finish the calibration with the GUI.   
-
-If calculation result is confirmed and saved，it will appear by default under `~/.ros/easy_handeye` directory and can be used for transferring object coordinates to base frame. If the [camera_stand](https://www.ufactory.cc/products/xarm-camera-module-2020) provided by UFACTORY is used for fixing camera, a sample calibration result is stored at xarm_vision/d435i_xarm_setup/config/[xarm_realsense_handeyecalibration_eye_on_hand_sample_result.yaml](./xarm_vision/d435i_xarm_setup/config/xarm_realsense_handeyecalibration_eye_on_hand_sample_result.yaml) for this case.  
-
-## 7.3 Vision Guided Grasping Demo:
-[***find_object_2d***](http://introlab.github.io/find-object/) is used for this demo for simple object detection and grasping. Hardware used in this part: RealSense D435i depth camera, UFACTORY camera stand and the xArm Gripper.  
-
-1.Use moveit to drive xArm's motion，recommended for singularity and collision free execution, but will require a reliable network connection.  
-```bash
-$ roslaunch d435i_xarm_setup d435i_findobj2d_xarm_moveit_planner.launch robot_dof:=your_xArm_DOF robot_ip:=your_xArm_IP
-```
-If target object can be properly detected, to run the Grasping node:  
-```bash
-$ rosrun d435i_xarm_setup findobj2d_grasp_moveit
-```
-
-Please note it will use previously mentioned sample handeye calibration result, you can change it at [publish_handeye_tf.launch](./xarm_vision/d435i_xarm_setup/launch/publish_handeye_tf.launch). For node program source code, refer to: d435i_xarm_setup/src/[findobj_grasp_moveit_planner.cpp](./xarm_vision/d435i_xarm_setup/src/findobj_grasp_moveit_planner.cpp).  
-
-2.Alternatively, to drive xArm motion with ros service provided by 'xarm_api', in this way, real-time performance of network will not be required so strict as moveit way, but execution may fail in the middle if singularity or self-collision is about to occur. 
-```bash
-$ roslaunch d435i_xarm_setup d435i_findobj2d_xarm_api.launch robot_dof:=your_xArm_DOF robot_ip:=your_xArm_IP
-```
-If target object can be properly detected, to run the Grasping node:  
-```bash
-$ roslaunch d435i_xarm_setup grasp_node_xarm_api.launch
-```
-Please note it will use previously mentioned sample handeye calibration result, you can change it at [publish_handeye_tf.launch](./xarm_vision/d435i_xarm_setup/launch/publish_handeye_tf.launch). For node program source code, refer to: d435i_xarm_setup/src/[findobj_grasp_xarm_api.cpp](./xarm_vision/d435i_xarm_setup/src/findobj_grasp_moveit_xarm_api.cpp).  
-
-***Please read and comprehend the source code and make necessary modifications before real application test***, necessary modifications include preparation pose, grasping orientation, grasping depth, motion speed and so on. The identification target name in the code is "object_1", which corresponds to `1.png` in /objects directory, users can add their own target in "find_object_2d" GUI, then modify the `source_frame` inside the code, for costomized application.  
-
-***Tips***: make sure the background is clean and the color is distinguished from the object, detection success rate can be higher if the target object has rich texture (features).
-
-## 7.4 Adding RealSense D435i model to simulated xArm：
-For installation with camera stand provided by UFACTORY, the cam model can be attached by following modifications (use xarm7 as example):    
-1.Together with xArm Gripper model: Set `add_realsense_d435i` default value to be `true` in [xarm7_with_gripper.xacro](./xarm_description/urdf/xarm7_with_gripper.xacro).  
-2.Together with xArm Vacuum Gripper model: Set `add_realsense_d435i` default value to be `true` in [xarm7_with_vacuum_gripper.xacro](./xarm_description/urdf/xarm7_with_vacuum_gripper.xacro).  
-3.Purely the d435i: Set `add_realsense_d435i` default value to be `true` in [xarm7_robot.urdf.xacro](./xarm_description/urdf/xarm7_robot.urdf.xacro).  
-
-## 7.5 Color Cube Grasping Demo
-
-### 7.5.1 Download 'gazebo_grasp_plugin' for successful grasp simulation (ROS Melodic and later)
-```bash
- # enter source directory of ROS workspace:
- $ cd ~/catkin_ws/src/
- # Download through git (mind to checkout the proper branch):
- $ git clone https://github.com/JenniferBuehler/gazebo-pkgs.git
- # Compile:
- $ cd ..
- $ catkin_make
-```
-### 7.5.2 Gazebo grasping simulation (ROS Melodic and later)
-```bash
- # Initialize gazebo scene and move_group:
- $ roslaunch xarm_gazebo xarm_camera_scene.launch robot_dof:=6
-
- # In another terminal, run the color recognition and grasping script:
- $ rosrun xarm_gazebo color_recognition.py
-```
-### 7.5.3 Real xArm and Intel realsense_d435i hardware
-```bash
- # launch move_group:
- $ roslaunch camera_demo xarm_move_group.launch robot_ip:=192.168.1.15 robot_dof:=6
-
- # In another terminal, run the color recognition and grasping script (use with interaction prompt):
- $ rosrun camera_demo color_recognition.py
-```
-
-
-# 8. Other Examples
-&ensp;&ensp;There are some other application demo examples in the [example package](./examples), which will be updated in the future, feel free to explore it.
