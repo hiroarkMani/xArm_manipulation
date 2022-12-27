@@ -13,7 +13,7 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 
 ※コマンドすべて頭文字に$が入っているので実行する前に取り除いてください.　
 
-**※所詮一学生が作ったものなので、正しい情報とは限りません. 分からない事は正直に分からないと書いてるので, その箇所が重要だと判断した際は、各自理解しこの資料の更新をお願いします.** 
+**※所詮一学生が作ったものなので、正しい情報とは限りません. 分からない事は正直に分からないと書いてるので, その箇所が重要だと判断した際は、各自[公式のマニュアル](https://github.com/xArm-Developer/xarm_ros)から理解しこの資料の更新をお願いします.** 
 
 # 本資料の更新日及び更新者
 後輩たちがxArmを使った研究を行う際に、「アームの使い方分からない！」とならないようにする為に作成した資料です. 
@@ -263,31 +263,7 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
 ## 3.7 xarm_api/xarm_msgs:
 &ensp;&ensp;この2つのパッケージは、xArm SDKの機能のROSサービスラッパーをユーザーに提供します。12種類のモーションコマンド(サービス名)がサポートされていますが、まず正しいロボットモードを設定してください。 
 
-
-#### Robot Mode 0:
-* <font color=blue>[move_joint](#1-joint-space-motion):</font> joint space point to point command, given target joint angles, max joint velocity and acceleration. Corresponding function in SDK is "set_servo_angle()".  
-* <font color=blue>[move_line](#2-cartesian-space-motion-in-base-coordinate):</font> straight-line motion to the specified Cartesian Tool Centre Point(TCP) target. Corresponding function in SDK is "set_position()"[blending radius not specified].  
-* <font color=blue>move_lineb:</font> straight-line motion, and blending continuously with next motion. Normally works in the form of a list of known via points followed by target Cartesian point. Each motion segment is straight-line with Arc blending at the via points, to make velocity continuous. Corresponding function in SDK is "set_position()"[wait=false and blending radius specified]. Please refer to [move_test.cpp](./xarm_api/test/move_test.cpp) and [blended_motion_test.py](./xarm_api/scripts/blended_motion_test.py) for example code, `/xarm/wait_for_finish` parameter has to be `false` for successful blending calculation.   
-* <font color=blue>move_jointb:</font> joint space point to point motion, and blending continuously with next motion. It can be used together with "move_lineb" for joint-linear blending motions, as long as the via points are known, and blending radius is properly specified, velocity will be continuous during the execution. Corresponding function in SDK is "set_servo_angle()"[wait=false and blending radius specified]. Please refer to [blended_motion_test.py](./xarm_api/scripts/blended_motion_test.py) for example code. `/xarm/wait_for_finish` parameter has to be `false` for successful blending calculation.   
-* <font color=blue>[move_line_tool](#3-cartesian-space-motion-in-tool-coordinate):</font> straight-line motion based on the **Tool coordinate system** rather than the base system. Corresponding function in SDK is "set_tool_position()".  
-Please ***keep in mind that*** before calling the 4 motion services above, first set robot mode to be 0, then set robot state to be 0, by calling relavent services. Meaning of the commands are consistent with the descriptions in product ***user manual***, other xarm API supported functions are also available as service call. Refer to [xarm_msgs package](./xarm_msgs/) for more details and usage guidance.  
-
-* <font color=blue>[move_line_aa](#4-cartesian-space-motion-in-axis-angle-orientation):</font> straight-line motion, with orientation expressed in **Axis-angle** rather than roll-pitch-yaw angles. Please refer to xArm user manual for detailed explanation of axis-angle before using this command.   
-
-#### Robot Mode 1:
-* <font color=blue>[move_servo_cart](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#2-servo_cartesian-streamed-cartesian-trajectory)/[move_servoj](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#3-servo_joint-streamed-joint-space-trajectory):</font> streamed high-frequency trajectory command execution in Cartesian space or joint space. Corresponding functions in SDK are set_servo_cartesian() and set_servo_angle_j(). An alternative way to implement <font color=red>velocity control</font>. Special **RISK ASSESMENT** is required before using them. Please read the guidance carefully at [examples chapter 2-3](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#2-servo_cartesian-streamed-cartesian-trajectory).   
-
-#### Robot Mode 4:
-* <font color=blue>[velo_move_joint/velo_move_joint_timed](#5-joint-velocity-control):</font> Joint motion with specified velocity for each joint (unit: rad/s), with maximum joint acceleration configurable by `set_max_acc_joint` service.  
-
-#### Robot Mode 5:
-* <font color=blue>[velo_move_line/velo_move_line_timed](#6-cartesian-velocity-control):</font> Linear motion of TCP with specified velocity in mm/s (position) and rad/s (orientation in **axis-angular_velocity**), with maximum linear acceleration configurable by `set_max_acc_line` service.  
-
-#### Robot Mode 6: (Firmware >= v1.10.0)
-* <font color=blue>[move_joint](#1-joint-space-motion):</font> Online joint space replanning to the new joint angles, with new max joint velocity and acceleration. Joint velocities and accelerations are continuous during transition, however the velocity profiles may not be synchronous and the final reached positions may have small errors. **This function is mainly for dynamic response without self trajectory planning requirement like servo joint commands**. `/xarm/wait_for_finish` parameter has to be `false` for successful transition. Corresponding function in SDK is "set_servo_angle(wait=false)" under mode 6. [Instructions](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#6-online-target-update) 
-
-#### Robot Mode 7: (Firmware >= v1.11.0)
-* <font color=blue>[move_line](#2-cartesian-space-motion-in-Base-coordinate):</font> Online Cartesian space replanning to the new target coordinate, with new max linear velocity and acceleration. Velocities and accelerations are continuous during transition, **This function is mainly for dynamic response without self trajectory planning requirement like servo cartesian commands**. `/xarm/wait_for_finish` parameter has to be `false` for successful transition. Corresponding function in SDK is "set_position(wait=false)" under mode 7. [Instructions](https://github.com/xArm-Developer/xarm_ros/tree/master/examples#6-online-target-update)   
+ここも荒木は弄ってないのでよく分かりません. 
 
 #### Starting xArm by ROS service:
 
