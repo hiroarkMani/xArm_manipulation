@@ -117,9 +117,8 @@ $ roslaunch xarm_description xarm6_rviz_display.launch
    ```bash
    $ roslaunch xarm_gazebo xarm6_beside_table.launch [run_demo:=true] [add_gripper:=true] [add_vacuum_gripper:=true] 
    ```
-&ensp;&ensp;Add the "run_demo" option if you wish to see a pre-programed loop motion in action. The command trajectory is written in xarm_controller\src\sample_motion.cpp. And the trajectory in this demo is controlled by pure position interface.   
-&ensp;&ensp;Add the "add_gripper" option if you want to see the xArm Gripper attached at the tool end.  
-&ensp;&ensp;Add the "add_vacuum_gripper" option if you want to see the xArm Vacuum Gripper attached at the tool end. Please note ONLY ONE end effector can be attached.  
+
+上手く行かない場合は、エラー文をググって見てください. もしかしたら、これは失敗するかも？？
 
 # 3. Package description & Usage Guidance
    
