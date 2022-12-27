@@ -1,7 +1,7 @@
 # xArm講習会
 ここでは，本研究室の基本的なxArm6の動かし方について紹介する．
 xArmは基本的に動かし方は二つある．
-1. UFactoryが出す「xArm Studio」というアプリでマニュアル操作したり，ティーチングしたりする方法.
+1. UFactoryが出す「UFACTORY Studio」というアプリでマニュアル操作したり，ティーチングしたりする[方法](https://www.ufactory.cc/download-xarm-robot).
 2. ROSとmoveitを駆使し，カメラなどのセンサから得た情報を基に軌道生成を行える開発者用の方法.
 
 今回は，2のROSでxArmを動かす方法について紹介する．
