@@ -243,19 +243,18 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
    ```
    このような形で設計したものをSTL形式にすれば、それをPCのシミュレーション上に投影し動作計画時に干渉チェックできる.試しに机の上にbox置いてみるとかでは使えるけど、ハンドを取り付ける場合毎回これやるのはバカバカしいのでオススメしません.(後述)
 
-### Argument explanations:
-- __add_other_geometry__: default to be false，indicating whether to add other geometry model to the tool.
-- __geometry_type__: geometry shapes to be added，as one of 'box/cylinder/sphere/mesh', there are different parameters required for different types.  
-- __geometry_height__: height of geometry shape，unit: meter，default value: 0.1，effective for geometry_type: box/cylinder/sphere.
-- __geometry_radius__: radius of geometry shape，unit: meter，default value: 0.1，effective for geometry_type: cylinder/sphere.
-- __geometry_length__: length of geometry shape，unit: meter，default value: 0.1，effective for geometry_type: box.
-- __geometry_width__: width of geometry shape，unit: meter，default value: 0.1，effective for geometry_type: box.
-- __geometry_mesh_filename__: geometry shape，effective for geometry_type: mesh.
-- __geometry_mesh_origin_xyz__: position offset from mesh base coordinate to xarm tool-flange coordinate, default: "0 0 0"，effective for geometry_type: mesh.
-- __geometry_mesh_origin_rpy__: orientation offset from mesh base coordinate to xarm tool-flange coordinate, default: "0 0 0"，effective for geometry_type: mesh.
-- __geometry_mesh_tcp_xyz__: the positional TCP offset with respect to xarm tool-flange coordinate, default: "0 0 0"，effective for geometry_type: mesh.
-- __geometry_mesh_tcp_rpy__: the orientational TCP offset with respect to xarm tool-flange coordinate, default: "0 0 0"，effective for geometry_type: mesh.  
-
+### 引数の説明:
+- __add_other_geometry__:デフォルトはfalse，他のジオメトリモデルをツールに追加するかどうかを示す．
+- __geometry_type__: box/cylinder/sphere/meshのいずれかを選択し、種類によって必要なパラメータが異なる。 
+- __geometry_height__: ジオメトリの高さ，単位: m，デフォルト値: 0.1，ジオメトリタイプ: box/cylinder/sphere に適用されます。
+- __geometry_radius__: ジオメトリの半径，単位: メートル，デフォルト値: 0.1，ジオメトリの種類: 円柱/球に対して有効
+- __geometry_length__: ジオメトリの長さ，単位: メートル，デフォルト値: 0.1，ジオメトリの種類: 箱に適用されます。
+- __geometry_width__: ジオメトリの幅，単位: m，デフォルト値: 0.1，ジオメトリの種類: box に対して有効。
+- __geometry_mesh_filename__: ジオメトリ形状、ジオメトリタイプ：メッシュに対して有効。
+- __geometry_mesh_origin_xyz__:メッシュのベース座標から xarm ツールフランジ座標へのオフセット、デフォルト: "0 0 0"、ジオメトリの種類: メッシュに効果的です。
+- __geometry_mesh_origin_rpy__: メッシュのベース座標から xarm ツールフランジ座標への方向オフセット、デフォルト: "0 0 0"、ジオメトリの種類: メッシュに有効です。
+- __geometry_mesh_tcp_xyz__: xarm tool-flange 座標に対する TCP オフセット、デフォルト: "0 0 0"、geometry_type: mesh に対して有効です。
+- __geometry_mesh_tcp_rpy__:xarm ツールフランジ座標に対する方向 TCP オフセット、デフォルト: "0 0 0"、ジオメトリタイプ: メッシュに対して有効。 
 
 ## 3.6 xarm_planner:
 &ensp;&ensp;This implemented simple planner interface is based on move_group from Moveit! and provide ros service for users to do planning & execution based on the requested target, user can find detailed instructions on how to use it inside [***xarm_planner package***](./xarm_planner/).  
