@@ -13,7 +13,13 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 
 ※コマンドすべて頭文字に$が入っているので実行する前に取り除いてください.　
 
-※2020/12/27 動作確認済　(以降、引き継ぐ方は更新よろしくお願いします)
+# 本資料の更新日及び更新者
+後輩たちがxArmを使った研究を行う際に、「アームの使い方分からない！」とならないようにする為に作成した資料です. 
+もし、xarm等のパッケージに更新があり、本資料ではエラーが出てしまう場合は、お手数ですが更新をお願いします.github分からないかもしれないですけど、なんとなくこの資料のRawデータ見ればわかるはずですので頑張ってください.
+|更新日|氏名|配属|mail(任意)|
+| ------------- | ------------- |------------- | ------------- |
+| 2020/12/27| 荒木 博揚 |2020(15期生)| hiroark.mani@gmail.com |
+
 
 # 目次:  
 * [1. 依存パッケージのインストール (**必須**)](#1-preparations-before-using-this-package)
@@ -138,7 +144,9 @@ $ roslaunch xarm_description xarm6_rviz_display.launch
 [ERROR] [1672138940.251141814, 0.356000000]: No p gain specified for pid.  Namespace: /xarm/gazebo_ros_control/pid_gains/joint5
 [ERROR] [1672138940.251953284, 0.356000000]: No p gain specified for pid.  Namespace: /xarm/gazebo_ros_control/pid_gains/joint6
 ```
-こういうエラーが出ると思いますが、これは無視して結構です. (上手く消せたら更新お願いします〜　by荒木)
+こういう赤字のエラーが出ると思いますが、これは無視して結構です. (上手く消せたら更新お願いします〜　by荒木)
+
+他にも、黄色の文字でWarnig!の警告文も出ますが、出るものです！笑　(同様に消せたら更新を！)
 # 3. Package description & Usage Guidance
    
 ## 3.1 xarm_description
