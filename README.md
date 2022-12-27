@@ -181,8 +181,8 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
    ![Screenshot from 2022-12-27 21-02-30](https://user-images.githubusercontent.com/86779771/209664164-ba5168d4-1114-490a-bed8-61a9c67f6644.png)
    
    こんな感じに手動で動かせるか確認をしよう.
-   [Screencast from 2022年12月27日 21時02分35秒.webm](https://user-images.githubusercontent.com/86779771/209664245-41ca01e1-6aac-415a-a834-74754dc36454.webm)
-
+   
+   [Screencast from 2022年12月27日 21時02分35秒.webm](https://user-images.githubusercontent.com/86779771/209665020-38b6d7f1-271a-4ec2-8217-6a4891fb2769.webm)
 #### To run Moveit! motion planner along with Gazebo simulator:  
    1. If no xArm gripper needed, first run:  
    ```bash
