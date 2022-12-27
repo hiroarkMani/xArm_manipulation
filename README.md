@@ -2,9 +2,9 @@
 ここでは，本研究室の基本的なxArm6の動かし方について紹介する．
 xArmは基本的に動かし方は二つある．
 1. UFactoryが出す「xArm Studio」というアプリでマニュアル操作したり，ティーチングしたりする方法.
-2. ROSとmoveitを駆使し，カメラなどのセンサから得た情報を基に軌道生成を行いたい，開発者用の方法.
+2. ROSとmoveitを駆使し，カメラなどのセンサから得た情報を基に軌道生成を行える開発者用の方法.
 
-今回は，ROSでxArmを動かす方法について紹介する．
+今回は，2のROSでxArmを動かす方法について紹介する．
 
 まず，大前提として，**ROSの環境構築(本研究室サーバー\manilab\software\ROS練習)** は終えておいてください．
 また，最低限のトピック通信の方法は学んでおいておくことを推奨します．
@@ -89,13 +89,9 @@ Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>
 ## 2.3 依存パッケージのアップデート:
    ```bash
    $ rosdep update
-   $ rosdep check --from-paths . --ignore-src --rosdistro kinetic
+   $ rosdep check --from-paths . --ignore-src --rosdistro noetic
    ```
-   Please change 'kinetic' to the ROS distribution you use. If there are any missing dependencies listed. Run the following command to install:  
-   ```bash
-   $ rosdep install --from-paths . --ignore-src --rosdistro kinetic -y
-   ```
-   And chane 'kinetic' to the ROS distribution you use.  
+   ROSのバージョンがnoeticじゃ無い場合は、各自変えること.
 
 ## 2.4 ビルド
    ```bash
@@ -106,7 +102,8 @@ Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>
 ```bash
 $ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 ```
-Skip above operation if you already have that inside your ~/.bashrc. Then do:
+すでに~/.bashrcの中にある場合は、上記の操作をスキップしてください. (.bashrcの中身を確認してください)
+次に、この操作を行います。:
 ```bash
 $ source ~/.bashrc
 ```
@@ -114,6 +111,7 @@ $ source ~/.bashrc
 ```bash
 $ roslaunch xarm_description xarm6_rviz_display.launch
 ```
+上手く行かない場合は、エラー文をググって見てください. それでもわからない場合は最初からやり直しましょう.
 
 ## 2.7 gazeboでシミュレーション
    ```bash
