@@ -12,7 +12,7 @@ xArmは基本的に動かし方は二つある．
 # 目次:  
 * [1. 依存パッケージのインストール (**必須**)](#1-preparations-before-using-this-package)
 * [2. 環境構築](#2-getting-started-with-xarm_ros)
-* [3. Package Description & Usage Guidance](#3-package-description--usage-guidance)
+* [3.  パッケージの説明と使用上の注意](#3-package-description--usage-guidance)
     * [3.1 xarm_description](#31-xarm_description)  
     * [3.2 xarm_gazebo](#32-xarm_gazebo)  
     * [3.3 xarm_controller](#33-xarm_controller)  
@@ -72,13 +72,13 @@ Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>
    もし違うワークスペースでやりたいという人は[このページ](http://wiki.ros.org/catkin/Tutorials/create_a_workspace)を参考に新たにワークスペースを作成してください. 
    この資料内でのディレクトリ移動等のコマンドはすべて"catkin_ws"を使っているので、新たに作った人は各自書き換えてください.
 
-## 2.2 Obtain the package
+## 2.2 パッケージの取得
    ```bash
    $ cd ~/catkin_ws/src
    $ git clone https://github.com/xArm-Developer/xarm_ros.git --recursive
    ```
 
-## 2.2.1 update the package
+## 2.2.1　パッケージのアップデート
    ```bash
    $ cd ~/catkin_ws/src/xarm_ros
    $ git pull
@@ -86,7 +86,7 @@ Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>
    $ git submodule update --init --remote
    ```
 
-## 2.3 Install other dependent packages:
+## 2.3 依存パッケージのアップデート:
    ```bash
    $ rosdep update
    $ rosdep check --from-paths . --ignore-src --rosdistro kinetic
@@ -97,12 +97,12 @@ Moveit tutorial: <http://docs.ros.org/kinetic/api/moveit_tutorials/html/>
    ```
    And chane 'kinetic' to the ROS distribution you use.  
 
-## 2.4 Build the code
+## 2.4 ビルド
    ```bash
    $ cd ~/catkin_ws
    $ catkin_make
    ```
-## 2.5 Source the setup script
+## 2.5 バッシュ
 ```bash
 $ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 ```
@@ -110,14 +110,14 @@ Skip above operation if you already have that inside your ~/.bashrc. Then do:
 ```bash
 $ source ~/.bashrc
 ```
-## 2.6 First try out in RViz:
+## 2.6 テスト動作:
 ```bash
-$ roslaunch xarm_description xarm7_rviz_display.launch
+$ roslaunch xarm_description xarm6_rviz_display.launch
 ```
 
-## 2.7 Run the demo in Gazebo simulator
+## 2.7 gazeboでシミュレーション
    ```bash
-   $ roslaunch xarm_gazebo xarm7_beside_table.launch [run_demo:=true] [add_gripper:=true] [add_vacuum_gripper:=true] 
+   $ roslaunch xarm_gazebo xarm6_beside_table.launch [run_demo:=true] [add_gripper:=true] [add_vacuum_gripper:=true] 
    ```
 &ensp;&ensp;Add the "run_demo" option if you wish to see a pre-programed loop motion in action. The command trajectory is written in xarm_controller\src\sample_motion.cpp. And the trajectory in this demo is controlled by pure position interface.   
 &ensp;&ensp;Add the "add_gripper" option if you want to see the xArm Gripper attached at the tool end.  
@@ -126,7 +126,8 @@ $ roslaunch xarm_description xarm7_rviz_display.launch
 # 3. Package description & Usage Guidance
    
 ## 3.1 xarm_description
-   &ensp;&ensp;xArm description files, mesh files and gazebo plugin configurations, etc. It's not recommended to change the xarm description file since other packages depend on it. 
+   &ensp;&ensp;xArmの記述ファイル. メッシュファイル、gazeboのプラグイン設定など. xarmの記述ファイルは、他のパッケージが依存しているので、変更することはお勧めしない.
+   URDFファイルなど編集する場合はここ. 編集の方法などは後述.
 
 ## 3.2 xarm_gazebo
    &ensp;&ensp;Gazebo world description files and simulation launch files. User can add or build their own models in the simulation world file.
