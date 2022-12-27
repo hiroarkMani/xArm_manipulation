@@ -34,9 +34,9 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
     * [3.5 ***xarm6_moveit_config***](#35-xarm6_moveit_config)  
     * [3.6 ***xarm_planner***](#36-xarm_planner)  
     * [3.7 ***xarm_api/xarm_msgs (Online Planning Modes Added)***](#37-xarm_apixarm_msgs)  
-* [6. Mode Change(***Updated***)](#6-mode-change)
-    * [6.1 Mode Explanation](#61-mode-explanation)
-    * [6.2 Proper way to change modes](#62-proper-way-to-change-modes)
+* [4. 制御モードの変更](#6-mode-change)
+    * [4.1 Mode Explanation](#61-mode-explanation)
+    * [4.2 Proper way to change modes](#62-proper-way-to-change-modes)
 * [7. xArm Vision](#7-xarm-vision)
     * [7.1 Installation of dependent packages](#71-installation-of-dependent-packages)
     * [7.2 Hand-eye Calibration Demo](#72-hand-eye-calibration-demo)
@@ -360,17 +360,19 @@ $ rosservice call /xarm/moveit_clear_err
 &ensp;&ensp; ***Mode 6*** : Joint space online planning mode. (Firmware >= v1.10.0)  
 &ensp;&ensp; ***Mode 7*** : Cartesian space online planning mode. (Firmware >= v1.11.0)  
 
-&ensp;&ensp;***Mode 0*** is the default when system initiates, and when error occurs(collision, overload, overspeed, etc), system will automatically switch to Mode 0. Also, all the motion plan services in [xarm_api](./xarm_api/) package or the [SDK](https://github.com/xArm-Developer/xArm-Python-SDK) motion functions demand xArm to operate in Mode 0. ***Mode 1*** is for external trajectory planner like Moveit! to bypass the integrated xArm planner to control the robot. ***Mode 2*** is to enable free-drive operation, robot will enter Gravity compensated mode, however, be sure the mounting direction and payload are properly configured before setting to mode 2. ***Mode 4*** is to control arm velocity in joint space. ***Mode 5*** is to control arm (linear) velocity in Cartesian space. ***Mode 6 and 7*** are for dynamic realtime response to newly generated joint or Cartesian target respectively, with automatic speed-continuous trajectoty re-planning.
+&ensp;&ensp;***モード0***はシステム起動時のデフォルトであり、エラー発生時（衝突、過負荷、速度超過など）、自動的にモード0に切り替わります。また、[xarm_api](./xarm_api/)パッケージや[SDK](https://github.com/xArm-Developer/xArm-Python-SDK)のモーション機能では、xArmがMode 0で動作するよう要求されます。***モード1***は、Moveit!のような外部の軌道プランナーが、統合されたxArmプランナーをバイパスしてロボットを制御するためのものです。***モード2***はフリードライブ動作で、ロボットは重力補正モードに入りますが、モード2に設定する前に取り付け方向とペイロードが適切に設定されていることを確認してください。***モード4***はアームの速度を制御するモードです。***モード5***は直交座標系でのアームの直線的な速度を制御します。***モード6と7***は、それぞれ新しく生成された関節目標またはデカルト目標にリアルタイムで応答し、自動速度連続軌道再計画を行うためのモードです.
+ってたくさん書いてるけそよくわからないからモード0使ってます(荒木). この姿勢できるかなーだったり、ティーチングで覚えさせたいとかあればモード2にすると良さそうかな？
 
-### 6.2 Proper way to change modes:  
-&ensp;&ensp;If collision or other error happens during the execution of a Moveit! planned trajectory, Mode will automatically switch from 1 to default mode 0 for safety purpose, and robot state will change to 4 (error state). The robot will not be able to execute any Moveit command again unless the mode is set back to 1. The following are the steps to switch back and enable Moveit control again:  
 
-&ensp;&ensp;(1) Make sure the objects causing the collision are removed.  
-&ensp;&ensp;(2) clear the error:  
+### 6.2 モードの変更方法:  
+&ensp;&ensp;  Moveit! の実行中に衝突やその他のエラーが発生した場合。計画された軌道、モードは安全のために 1 からデフォルトのモード 0 に自動的に切り替わり、ロボットの状態は 4 (エラー状態) に変わります。モードを 1 に戻さない限り、ロボットは Moveit コマンドを再度実行できません。次の手順に従って、Moveit コントロールを再度有効にします。  
+
+&ensp;&ensp;(1)衝突の原因となっている物体が取り除かれていることを確認します。  
+&ensp;&ensp;(2) エラーをクリアします。: 
 ```bash
 $ rosservice call /xarm/clear_err
 ```
-&ensp;&ensp;(3) switch to the desired mode (Mode 2 for example), and set state to 0 for ready:
+&ensp;&ensp;(3) 目的のモード (たとえばモード 2) に切り替え、状態を 0 に設定して準備完了:
 ```bash
 $ rosservice call /xarm/set_mode 2
 
