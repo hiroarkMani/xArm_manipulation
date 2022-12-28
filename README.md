@@ -164,7 +164,7 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
    
    [Screencast from 2022年12月27日 21時02分35秒.webm](https://user-images.githubusercontent.com/86779771/209665020-38b6d7f1-271a-4ec2-8217-6a4891fb2769.webm)
 #### Gazeboシミュレータと一緒にMoveit！モーションプランナーを実行:  
-   1. **xArmグリッパーが必要ない場合**は、まずこれを実行:  
+   1. **エンドエフェクタがない場合**:  
    ```bash
    $ roslaunch xarm_gazebo xarm6_beside_table.launch
    ```
@@ -176,7 +176,7 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
    ![Screenshot from 2022-12-28 16-10-33](https://user-images.githubusercontent.com/86779771/209773114-322ec31c-7d47-4550-9891-0ed055abd84a.png)
    
 
-   2. **xArmグリッパー(UFactory製品)が必要な場合**:  
+   2. **xArmグリッパー(UFactory製品)が必要な場合(任意)**:  
    ```bash
    $ roslaunch xarm_gazebo xarm6_beside_table.launch add_gripper:=true
    ```
@@ -186,9 +186,9 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
    ```
    Moveit！で満足のいく動作が計画できたら、「Excute」ボタンを押すと、Gazebo の仮想アームが軌道を実行する.
 
-   3.  **xArmのバキュームグリッパー(UFactory製品)が必要な場合**, 上記のグリッパーの例の "gripper "を "vacuum_gripper "に置き換えるだけでよいでしょう。
+   3.  **xArmのバキュームグリッパー(UFactory製品)が必要な場合(任意)**, 上記のグリッパーの例の "gripper "を "vacuum_gripper "に置き換えるだけでよいでしょう。
 
-#### Moveit！モーションプランナーで実際のxArm(実機)を制御する方法:  
+#### Moveit！モーションプランナーで実際のxArm(実機)を制御する方法(重要):  
    まず、xArmとコントローラボックスの電源が入っていること(**緊急停止ボタンをOFFにし電源ボタンがON**)を確認し、以下のコマンドを実行:  
    ```bash
    $ roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
