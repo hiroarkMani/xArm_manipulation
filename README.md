@@ -443,7 +443,7 @@ $ rosservice call /xarm/set_state 0
 &ensp;&ensp; まずは、[チュートリアルファイル](https://github.com/hiroarkMani/xArm_manipulation/blob/dcd6d5f3bad6d83793fdf392e1be6583d0bcf932/xArm-Python-tutorial.py)をダウンロードしてみてください. このファイルはcatkin_ws/src下に置いてください.(正直どこでもいいですけど)
 
 その後は以下のように操作してください.
-'''bash
+```bash
 $ cd catkin_ws/src
 $ sudo chmod 755 xArm-Python-tutorial.py
 
@@ -453,12 +453,12 @@ $ roslaunch xarm_gazebo xarm6_beside_table.launch
 $ roslaunch xarm6_moveit_config xarm6_moveit_gazebo.launch
 さらに別ターミナルで
 $ python3 xArm-Python-tutorial.py
-'''
+```
 
 そうすると、実行できるはずです.
 試しにmode"c"を選択してみると・・・
+```bash
 You select mode : c 
-'''bash
 ==========  Printing Xarm current pose: 
 position: 
   x: 0.29999769778685975
@@ -471,10 +471,14 @@ orientation:
   w: 0.0007057156499001798
 ==========  Printing Xarm current rpy:  ==========
 [-3.1401700961440615, 0.027661855497863663, 0.0007946108753283219]
-'''
+```
 こんな表示が出て、現在のアームの姿勢を取得できるようになっています.
 
 次に,mode"t"を選択してみると・・・
-アームの先端が(x,y,z)=(300,400,200)の位置に移動するはずです.
+アームの先端が(x,y,z)=(300,400,200)の位置(単位は[mm])に移動するはずです.
+ここで、mode"c"で位置を取得してみると、ずれていることがわかるはずです.
 
+最後に、mode"h"を選択し、元の位置に戻してあげましょう.
+
+[チュートリアルファイル](https://github.com/hiroarkMani/xArm_manipulation/blob/dcd6d5f3bad6d83793fdf392e1be6583d0bcf932/xArm-Python-tutorial.py)で使っているmoveitの関数はこの[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を参考にしています. これからやる課題は、このページの関数を駆使してやってみましょう.
 
