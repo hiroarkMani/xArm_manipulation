@@ -38,6 +38,7 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 * [4. 制御モードの変更](#4-mode-change)
     * [4.1 Mode Explanation](#41-mode-explanation)
     * [4.2 Proper way to change modes](#42-proper-way-to-change-modes)
+* [5.Pythonで動かす方法](#5-python-control)
 
 # 1. Preparations before using this package
 
@@ -430,3 +431,9 @@ $ rosservice call /xarm/set_mode 2
 
 $ rosservice call /xarm/set_state 0
 ```
+
+
+# 5. Python control
+&ensp;&ensp;ここまでは、ROSだけでアームを動かす方法を紹介しました. しかし、研究を行う上でカメラやハンドのモータから得たセンサデータを扱う以上、これらのコマンドをプログラムで引き出す必要があります. C++やPyhon様々な言語で動かせるみたいですけど、荒木が扱えるPythonで今回は紹介します.
+
+
