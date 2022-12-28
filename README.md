@@ -491,17 +491,6 @@ orientation:
    2. target_pose.orientation.*　の部分は弄らないようにしてください.
    3. 特に実機ではアームと机が干渉しないように、x,y,z軸の方向をしっかり把握し、入力を与えること.
 
-### 課題(2):干渉チェック
-&ensp;&ensp; PlanningScene上でboxを邪魔な位置に生成してみた上で(1)の位置に動作させてみよう.
-```bash
-box(キムワイプ)のサイズ指定: 130*120*95[mm]
-```
-コメントアウトしている
-```bash
-psi = moveit_commander.PlanningSceneInterface()
-```
-↑　これがヒント！！あとはこの[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を活用して頑張ってみよう.
-
 
 ### 課題(2):干渉チェック
 &ensp;&ensp; PlanningScene上でboxを邪魔な位置に生成してみた上で(1)の位置に動作させてみよう.
