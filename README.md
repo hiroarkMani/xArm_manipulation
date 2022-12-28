@@ -230,7 +230,7 @@ Moveitプランナーはグリッパーを考慮して衝突判定を行うの�
    # カスタマイズモデル(設計したやつとか):（ここでは、xarm vacuum_gripperを例とします。xarm_description/mmeshes/other'ディレクトリに置く場合、geometry_mesh_filenameは、ファイル名として簡略化できます）
    $ roslaunch xarm6_moveit_config demo.launch add_other_geometry:=true geometry_type:=mesh geometry_mesh_filename:=package://xarm_description/meshes/vacuum_gripper/visual/vacuum_gripper.STL geometry_mesh_tcp_xyz:='"0 0 0.126"'
    ```
-   このような形で設計したものをSTL形式にすれば、それをPCのシミュレーション上に投影し動作計画時に干渉チェックできる.試しに机の上にbox置いてみるとかでは使えるけど、ハンドを取り付ける場合毎回これやるのはバカバカしいのでオススメしません.(後述)
+   このような形で設計したものをSTL形式にすれば、それをPCのシミュレーション上に投影し、エンドエフェクタとして装着でき動作計画時に干渉チェックできる.
 
 ### 引数の説明:
 - __add_other_geometry__:デフォルトはfalse，他のジオメトリモデルをツールに追加するかどうかを示す．
