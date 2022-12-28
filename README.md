@@ -438,5 +438,43 @@ $ rosservice call /xarm/set_state 0
 # 5. Python control
 &ensp;&ensp;ここまでは、ROSだけでアームを動かす方法を紹介しました. しかし、研究を行う上でカメラやハンドのモータから得たセンサデータを扱う以上、これらのコマンドをプログラムで引き出す必要があります. C++やPyhon様々な言語で動かせるみたいですけど、荒木が扱えるPythonで今回は紹介します.
 
-まずは、[チュートリアルファイル](https://github.com/hiroarkMani/xArm_manipulation/blob/dcd6d5f3bad6d83793fdf392e1be6583d0bcf932/xArm-Python-tutorial.py)をダウンロードして実行してみてください.
+
+### 5.1 チュートリアル:
+&ensp;&ensp; まずは、[チュートリアルファイル](https://github.com/hiroarkMani/xArm_manipulation/blob/dcd6d5f3bad6d83793fdf392e1be6583d0bcf932/xArm-Python-tutorial.py)をダウンロードしてみてください. このファイルはcatkin_ws/src下に置いてください.(正直どこでもいいですけど)
+
+その後は以下のように操作してください.
+'''bash
+$ cd catkin_ws/src
+$ sudo chmod 755 xArm-Python-tutorial.py
+
+$ cd ..
+$ roslaunch xarm_gazebo xarm6_beside_table.launch
+別ターミナルで
+$ roslaunch xarm6_moveit_config xarm6_moveit_gazebo.launch
+さらに別ターミナルで
+$ python3 xArm-Python-tutorial.py
+'''
+
+そうすると、実行できるはずです.
+試しにmode"c"を選択してみると・・・
+You select mode : c 
+'''bash
+==========  Printing Xarm current pose: 
+position: 
+  x: 0.29999769778685975
+  y: 0.40003553552068016
+  z: 0.20003730083405907
+orientation: 
+  x: -0.9999040262992095
+  y: -0.00038742999676679704
+  z: 0.01383076476732452
+  w: 0.0007057156499001798
+==========  Printing Xarm current rpy:  ==========
+[-3.1401700961440615, 0.027661855497863663, 0.0007946108753283219]
+'''
+こんな表示が出て、現在のアームの姿勢を取得できるようになっています.
+
+次に,mode"t"を選択してみると・・・
+アームの先端が(x,y,z)=(300,400,200)の位置に移動するはずです.
+
 
