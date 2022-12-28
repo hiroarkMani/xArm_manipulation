@@ -519,7 +519,7 @@ psi = moveit_commander.PlanningSceneInterface()
 試しに、
 ```bash
 target_pose.x=???
-xarm.set_pose_target(home_pose)
+xarm.set_pose_target(target_pose)
 xarm.go()
 ```
 の形を繰り返して、動作させてみよう.何かおかしな点が見つかるはず…
@@ -531,8 +531,6 @@ xarm.go()
 
 ### 課題(4):(以下任意) ペンアタッチメントをエンドエフェクタとして付けてみよう
 &ensp;&ensp;  URDFファイルを編集し、ペンアタッチメントをエンドエフェクタとして付けてみる.
-
-
 
 
 ### 課題(5): イニシャルを描け
