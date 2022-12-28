@@ -482,7 +482,7 @@ orientation:
 
 [チュートリアルファイル](https://github.com/hiroarkMani/xArm_manipulation/blob/dcd6d5f3bad6d83793fdf392e1be6583d0bcf932/xArm-Python-tutorial.py)で使っているmoveitの関数はこの[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を参考にしています. これからやる課題は、このページの関数を駆使してやってみましょう.
 
-### 5.1 課題(1):キーボード入力で目標位置を与える
+### 課題(1):キーボード入力で目標位置を与える
 &ensp;&ensp; チュートリアルファイルに新しく関数を作ってキーボード入力で目標位置を与えてその位置に移動させるプログラムを書き、シミュレーション上で動作確認後、実機で動かしてみよ.
 
 ***注意事項***
@@ -490,7 +490,7 @@ orientation:
    2. target_pose.orientation.*　の部分は弄らないようにしてください.
    3. 特に実機ではアームと机が干渉しないように、x,y,z軸の方向をしっかり把握し、入力を与えること.
 
-### 5.2 課題(2):干渉チェック
+### 課題(2):干渉チェック
 &ensp;&ensp; PlanningScene上でboxを邪魔な位置に生成してみた上で(1)の位置に動作させてみよう.
 ```bash
 box(キムワイプ)のサイズ指定: 130*120*95[mm]
@@ -500,4 +500,42 @@ box(キムワイプ)のサイズ指定: 130*120*95[mm]
 psi = moveit_commander.PlanningSceneInterface()
 ```
 ↑　これがヒント！！あとはこの[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を活用して頑張ってみよう.
+
+
+### 課題(2):干渉チェック
+&ensp;&ensp; PlanningScene上でboxを邪魔な位置に生成してみた上で(1)の位置に動作させてみよう.
+```bash
+box(キムワイプ)のサイズ指定: 130*120*95[mm]
+```
+コメントアウトしている
+```bash
+psi = moveit_commander.PlanningSceneInterface()
+```
+↑　これがヒント！！あとはこの[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を活用して頑張ってみよう.
+
+
+### 課題(3):滑らかに円軌道を描け
+&ensp;&ensp; z=0.300 で適当に円軌道を素速く描け.
+試しに、
+```bash
+target_pose.x=???
+xarm.set_pose_target(home_pose)
+xarm.go()
+```
+の形を繰り返して、動作させてみよう.何かおかしな点が見つかるはず…
+それを解決してみよう.
+
+ヒント：動かす関数は何もgo()だけではない.
+
+
+
+### 課題(4):(以下任意) ペンアタッチメントをエンドエフェクタとして付けてみよう
+&ensp;&ensp;  URDFファイルを編集し、ペンアタッチメントをエンドエフェクタとして付けてみる.
+
+
+
+
+### 課題(5): イニシャルを描け
+&ensp;&ensp;  (4)の環境のまま,ペンを付けて自分のイニシャル文字を書いてみせよ.
+
 
