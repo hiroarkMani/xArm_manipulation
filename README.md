@@ -438,4 +438,5 @@ $ rosservice call /xarm/set_state 0
 # 5. Python control
 &ensp;&ensp;ここまでは、ROSだけでアームを動かす方法を紹介しました. しかし、研究を行う上でカメラやハンドのモータから得たセンサデータを扱う以上、これらのコマンドをプログラムで引き出す必要があります. C++やPyhon様々な言語で動かせるみたいですけど、荒木が扱えるPythonで今回は紹介します.
 
+まずは、[チュートリアルファイル](https://github.com/hiroarkMani/xArm_manipulation/blob/dcd6d5f3bad6d83793fdf392e1be6583d0bcf932/xArm-Python-tutorial.py)をダウンロードして実行してみてください.
 
