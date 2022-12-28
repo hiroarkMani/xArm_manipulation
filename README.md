@@ -263,14 +263,20 @@ $ roslaunch xarm_bringup xarm6_server.launch robot_ip:=192.168.1.217 report_type
 ```bash
 $ rosservice call /xarm/motion_ctrl 7 1
 ```
+
+ここで、xArmが「カチカチカチ」となり以下の表示が出ます.
+
+```bash
+ret: 0
+message: "motion enable, ret = 0"
+```
+
 &ensp;&ensp;モーションコマンドを実行する前に、ロボットモード（0：POSE）と状態（0：READY）を 設定  :    
 ```bash
 $ rosservice call /xarm/clear_err
 $ rosservice call /xarm/set_mode 0
-
 $ rosservice call /xarm/set_state 0
 ```
-これで、xArmが「カチカチカチ」となるはずです.(この辺は使ってないので自信ないです)
 
 #### 位置制御の例:
 &ensp;&ensp;角度は全て ***radian*** で指定することに注意してください.
@@ -332,10 +338,56 @@ $ rosservice call /xarm/set_tcp_offset 0 0 20 0 0 0
 
 #### エラーのクリア:
 &ensp;&ensp;コントローラーは、その後のコマンドの実行に影響を与えるエラーまたは警告を報告する場合があります。理由としては、電力損失、位置/速度制限違反、計画エラーなどが考えられます。クリアするには追加の介入が必要です。ユーザーは、トピック"xarm/xarm_states"のメッセージでエラー コードを確認できます。
+
+ROSの復習です.以下のコマンドを打ってみると
+```bash
+$ rostopic list
+```
+```bash
+/rosout
+/rosout_agg
+/xarm/controller_gpio_states
+/xarm/joint_states
+/xarm/sleep_sec
+/xarm/xarm_gripper/gripper_action/cancel
+/xarm/xarm_gripper/gripper_action/feedback
+/xarm/xarm_gripper/gripper_action/goal
+/xarm/xarm_gripper/gripper_action/result
+/xarm/xarm_gripper/gripper_action/status
+/xarm/xarm_states
+```
+これだけのトピックが配信されてることが分かります. 今回はこの中の/xarm/xarm_statesを見ます:
+
 ```bash
 $ rostopic echo /xarm/xarm_states
 ```
-&ensp;&ensp;ゼロ以外の場合、対応する理由はユーザーマニュアルで見つけることができます。問題を解決した後、空の引数でサービス"/xarm/clear_err"を呼び出すことにより、このエラー状態を取り除くことができます。
+```bash
+---
+header: 
+  seq: 1622
+  stamp: 
+    secs: 1672214200
+    nsecs: 963637319
+  frame_id: ''
+state: 2
+mode: 0
+cmdnum: 0
+mt_brake: 63
+mt_able: 63
+err: 0
+warn: 0
+angle: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+pose: [207.0, 3.6402626654155265e-14, 112.0, -3.1415927410125732, -0.0, 1.5407439555097887e-33]
+offset: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+---
+```
+こんな感じにリアルタイムで表示されるはずです. 
+
+以下のコマンド(moveit!)でxArmを起動している場合はもっとトピックが多いことでしょう.
+```bash
+roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
+```
+&ensp;&ensp;errの表示がゼロ以外の場合、サービス"/xarm/clear_err"を呼び出すことにより、このエラー状態を取り除くことができます。
 ```bash
 $ rosservice call /xarm/clear_err
 ```
