@@ -204,7 +204,8 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
    ```bash
    $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
    ```
-     Moveitプランナーはグリッパーを考慮して衝突判定を行うので、このパッケージは実際のxArmグリッパーと一緒に使うのがよいでしょう。 
+   
+Moveitプランナーはグリッパーを考慮して衝突判定を行うので、このパッケージは実際のxArmグリッパーと一緒に使うのがよいでしょう。 
 
 #### xArm Vaccum Gripperを実際に入荷し取り付けた場合:  
    ```bash
@@ -321,13 +322,11 @@ $ rosservice call /xarm/move_line_aa [0,122,0,-0.5,0,0] 30.0 100.0 0.0 0 1
 #### ステータス フィードバックの取得:
 &ensp;&ensp;  「xarm7_server.launch」を実行して実際の xArm ロボットに接続すると、ユーザーはトピック「xarm/xarm_states」にサブスクライブして、関節角度、TCP 位置、エラー/警告コードなどを含む現在のロボットの状態に関するフィードバック情報を得ることができます。コンテンツの詳細については、 RobotMsg.msgを参照してください。
   別のオプションは、「/joint_states」トピックをサブスクライブすることです。これはJointState.msgでレポートされますが、現在は「位置」フィールドのみが有効です; 「速度」は、隣接する 2 つの位置データに基づくフィルタリングされていない数値微分であり、「努力」フィードバックは、直接トルク センサーからではなく、電流ベースの推定値であるため、参考用です。パフォーマンスを考慮して、上記 2 つのトピックのデフォルトの更新レートは5Hzに設定されています。レポートの内容と頻度には他のオプションがあります。report_type 引数を参照してください。
-  
-  ![xArmFrames](https://user-images.githubusercontent.com/86779771/209673725-c1877d63-0cdd-4a2d-9bad-206d95fc360b.png)
-
 
 #### Setting Tool Center Point Offset(only effective for xarm_api ROS service control):
 &ensp;&ensp;ツール チップ ポイントのオフセット値は、サービス「/xarm/set_tcp_offset」を呼び出すことで設定できます。下の図を参照してください。このオフセット座標は、ベース フレームから (PI, 0, 0) のロール、ピッチ、ヨー回転で、フランジの中心に位置する既定のツール フレーム(フレーム B) に対して表されていることに注意してください (フレーム A)。   例えば：
-![Uploading xArmFrames.png…]()  
+  ![xArmFrames](https://user-images.githubusercontent.com/86779771/209673725-c1877d63-0cdd-4a2d-9bad-206d95fc360b.png)
+
 ```bash
 $ rosservice call /xarm/set_tcp_offset 0 0 20 0 0 0
 ```
