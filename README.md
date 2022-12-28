@@ -104,6 +104,11 @@ $ roslaunch xarm_description xarm6_rviz_display.launch
 ![Screenshot from 2022-12-27 19-40-04](https://user-images.githubusercontent.com/86779771/209654693-896efd9e-a1f9-4abd-9666-d9073d3bc46d.png)
 
 上手く行かない場合は、エラー文をググって見てください. それでもわからない場合は最初からやり直しましょう.
+また、毎回
+   ```bash
+   $ cd ~/catkin_ws
+   ```
+   でワークスペースに入ってからlaunchファイル等の実行を行ってください.
 
 ## 2.7 gazeboでシミュレーション
    ```bash
