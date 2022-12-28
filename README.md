@@ -505,7 +505,7 @@ psi = moveit_commander.PlanningSceneInterface()
 ### 課題(2):干渉チェック
 &ensp;&ensp; PlanningScene上でboxを邪魔な位置に生成してみた上で(1)の位置に動作させてみよう.
 ```bash
-box(キムワイプ)のサイズ指定: 130*120*95[mm]
+box(手指消毒液)のサイズ指定: 85*85*260[mm]
 ```
 コメントアウトしている
 ```bash
