@@ -482,10 +482,22 @@ orientation:
 
 [チュートリアルファイル](https://github.com/hiroarkMani/xArm_manipulation/blob/dcd6d5f3bad6d83793fdf392e1be6583d0bcf932/xArm-Python-tutorial.py)で使っているmoveitの関数はこの[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を参考にしています. これからやる課題は、このページの関数を駆使してやってみましょう.
 
-### 5.1 課題1:キーボード入力で目標位置を与える
+### 5.1 課題(1):キーボード入力で目標位置を与える
 &ensp;&ensp; チュートリアルファイルに新しく関数を作ってキーボード入力で目標位置を与えてその位置に移動させるプログラムを書き、シミュレーション上で動作確認後、実機で動かしてみよ.
 
 ***注意事項***
    1. x,y,zの指令値は[m]単位です. 
    2. target_pose.orientation.*　の部分は弄らないようにしてください.
    3. 特に実機ではアームと机が干渉しないように、x,y,z軸の方向をしっかり把握し、入力を与えること.
+
+### 5.2 課題(2):干渉チェック
+&ensp;&ensp; PlanningScene上でboxを邪魔な位置に生成してみた上で(1)の位置に動作させてみよう.
+```bash
+box(キムワイプ)のサイズ指定: 130*120*95[mm]
+```
+コメントアウトしている
+```bash
+psi = moveit_commander.PlanningSceneInterface()
+```
+↑　これがヒント！！あとはこの[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を活用して頑張ってみよう.
+
