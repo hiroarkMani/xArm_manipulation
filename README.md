@@ -280,6 +280,7 @@ $ rosservice call /xarm/move_line [250,100,300,3.14,0,0] 200 2000 0 0
 ```
 ##### 3. ツール座標でのデカルト空間の動き:
 &ensp;&ensp; ロボット ツール座標で表現された直交運動を呼び出すには、最大速度 200 mm/s および加速度 2000 mm/s^2 で、以下は現在のツールに沿って相対運動(delta_x=50mm、delta_y=100mm、delta_z=100mm)を移動します。座標、方向変更なし:
+```bash
 $ rosservice call /xarm/move_line_tool [50,100,100,0,0,0] 200 2000 0 0
 ```
 ##### 4.  軸角方向のデカルト空間運動:
@@ -300,6 +301,7 @@ message: "move_line_aa, ret = 0"
 $ rosservice call /xarm/move_line_aa [0,0,0,0,0,1.0] 30.0 100.0 0.0 1 1
 ```   
 &ensp;&ensp; " mvtime " はこのコマンドでは意味がありません。単に 0 に設定してください。別の例: base-frame で、Y 軸に沿って 122mm 相対的に移動し、X 軸を中心に -0.5 ラジアン回転します。
+```bash
 $ rosservice call /xarm/move_line_aa [0,122,0,-0.5,0,0] 30.0 100.0 0.0 0 1  
 ```
 
