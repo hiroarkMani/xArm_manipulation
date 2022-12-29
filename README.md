@@ -10,7 +10,7 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 また，最低限のトピック通信の方法は学んでおいておくことを推奨します．
 他にも, pythonに慣れてない方は最低限練習しておいてください.
 
-本資料の序盤部分は[公式のマニュアル](https://github.com/xArm-Developer/xarm_ros)に書いてあることをそのまま日本語化して、必要なものだけを載せただけです.もし何か分からないことあれば、最新の更新者に聞いてください.
+本資料の序盤部分は[公式のマニュアル](https://github.com/xArm-Developer/xarm_ros)に書いてあることをそのままDeepLで日本語化して、重要なもの、少し必要？なものだけを載せただけです.もし何か分からないことあれば、最新の更新者に聞いてください.
 
 ※コマンドすべて頭文字に$が入っているので実行する前に取り除いてください.　
 
@@ -530,6 +530,11 @@ xarm.go()
 そこでCtrl+Shift+Pを押し、ROS preview URDFと言うものがあるのでそれを選択してみてください.そうすると以下のように、モデルが現れるかと思います.
 ![Screenshot from 2022-12-29 15-17-17](https://user-images.githubusercontent.com/86779771/209911990-23546577-ae08-43b1-84e6-2251d6363368.png)
 
+ではこれについて説明します.
+```bash
+25 <xacro:include filename="$(find xarm_description)/urdf/xarm6_robot_macro.xacro" />
+```
+25行目にこんな記述があります. これはそのままの意味で、xarm_descriptionというファイルを見つけ、その下のurdf/xarm6_robot_macro.xacro　というxacroファイルをインクルードしているだけですね.ではその,$(find xarm_description)/urdf/xarm6_robot_macro.xacroファイルを覗いてみましょう.(25行目以外はおまじないみたいなもので最初はいいです。正直荒木も全部わかっていません)
 
 ### 課題(5): ペットボトル把持
 &ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう
