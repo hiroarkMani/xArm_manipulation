@@ -523,6 +523,13 @@ xarm.go()
 
 まず, URDFファイルはVScodeを入れた方が、編集が楽なので[VScode](https://code.visualstudio.com/download)を入れてしまいます.(というかエディターはvscode統一でいいと思います何の言語にしろ)
 
+インストールしたら、拡張機能からROSとURDFをインストールしましょう.
+
+次にcatkin_ws/src/xarm_rosのフォルダをVScodeで開き, xarm_description/urdf/xarm6_robot.urdf.xacroを開きましょう.
+
+そこでCtrl+Shift+Pを押し、ROS preview URDFと言うものがあるのでそれを選択してみてください.そうすると以下のように、モデルが現れるかと思います.
+![Screenshot from 2022-12-29 15-17-17](https://user-images.githubusercontent.com/86779771/209911990-23546577-ae08-43b1-84e6-2251d6363368.png)
+
 
 ### 課題(5): ペットボトル把持
 &ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう
