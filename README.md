@@ -534,7 +534,7 @@ xarm.go()
 ```bash
 25 <xacro:include filename="$(find xarm_description)/urdf/xarm6_robot_macro.xacro" />
 ```
-25行目にこんな記述があります. これはそのままの意味で、xarm_descriptionというファイルを見つけ、その下のurdf/xarm6_robot_macro.xacro　というxacroファイルをインクルードしているだけですね.ではその,$(find xarm_description)/urdf/xarm6_robot_macro.xacroファイルを覗いてみましょう.(25行目以外はおまじないみたいなもので最初はいいです。正直荒木も全部わかっていません)
+25行目にこんな記述があります. これはそのままの意味で、xarm_descriptionというファイルを見つけ、その下のurdf/xarm6_robot_macro.xacro　というxacroファイルをインクルードしているだけですね.ではその,$(find xarm_description)/urdf/xarm6_robot_macro.xacroファイルを覗いてみましょう.(25行目以外はおまじないみたいなもので最初はいいです。正直荒木も全部わかっていません)　ちなみに<!-- ??? -->はxml形式の言語の際のコメントアウトです.
 
 ```bash
 16 <xacro:include filename="$(find xarm_description)/urdf/xarm6.urdf.xacro" />
@@ -616,10 +616,71 @@ xarm.go()
 ```
 に変えて,xarm_description/urdf/xarm6_robot.urdf.xacroのURDFpreviewを見てみよう.
 ![Screenshot from 2022-12-29 15-40-36](https://user-images.githubusercontent.com/86779771/209913898-9cde295a-1792-4be1-a517-5de7e058018a.png)
-こんな感じにずれていればok. ***もちろんこのままじゃまずいから戻してください***.
+こんな感じにずれていればok. **もちろんこのままじゃまずいから戻してください**.
 こんなように、URDFファイルでロボットの幾何情報を記述して、動作計画時に各リンクが干渉しないようにしている.
 
-では、ようやくですけどグリッパを付けていくとしましょう.
+では、ようやくですが、グリッパを付けていくとしましょう.
+まず、xarm_description/urdf/xarm6_with_gripper.xacro を開き、URDFPreviewを見てみましょう.(編集者は訳あってVacuumで紹介します.後ほど理由は分かります)
+   ![Screenshot from 2022-12-29 15-56-32](https://user-images.githubusercontent.com/86779771/209915257-4948c769-3ac3-4f70-89fc-fe11ab97e26b.png)
+   こんな感じに、アームの先端にグリッパがついたことが分かります.
+では何故これがついたのかコードを見ていきます.
+```bash
+   <!-- load xarm6 robot -->
+  <xacro:include filename="$(find xarm_description)/urdf/xarm6_robot_macro.xacro" />
+  
+  <!-- Attach gripper --> 
+  <xacro:include filename="$(find xarm_description)/urdf/xarm_gripper.urdf.xacro" />
+```
+   前者の方は、この前もインクルードしたxArm6のロボットの幾何情報ですね. 後者はまた新たにグリッパをインクルードしていることが分かります.もう慣れてきたと思いますが、
+xarm_description/urdf/xarm_gripper.urdf.xacroを覗いてみましょう.
+   ```bash
+   <link
+    name="${prefix}xarm_gripper_base_link">
+    <inertial>
+      <origin
+        xyz="-0.00065489 -0.0018497 0.048028"
+        rpy="0 0 0" />
+      <mass
+        value="0.54156" />
+      <inertia
+        ixx="0.00047106"
+        ixy="3.9292E-07"
+        ixz="2.6537E-06"
+        iyy="0.00033072"
+        iyz="-1.0975E-05"
+        izz="0.00025642" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xarm_gripper/meshes/base_link.STL" />
+      </geometry>
+      <!-- <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material> -->
+      <material name="White">
+        <color rgba="1.0 1.0 1.0 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xarm_gripper/meshes/base_link_collision.STL" />
+      </geometry>
+    </collision>
+   ```
+グリッパを構成するリンクとその関係を示すjoint情報がズラーッと並んでいますね. 今回は、これを食器ハンドに変えてもらいます.余裕があれば、机やカメラスタンド、プレートラックなども置いてみましょう.目指す形はこれです.
+   ![Screenshot from 2022-12-29 16-05-44](https://user-images.githubusercontent.com/86779771/209916231-2016cc77-994c-4ade-9cba-20514d4e1708.png)
+   
+xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功したらこの課題は通過です.
 
 ### 課題(5): ペットボトル把持
 &ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう
