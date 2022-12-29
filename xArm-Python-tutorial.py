@@ -56,9 +56,9 @@ def ArmInitialization():
 
 def Go_homeposition():
     home_pose = geometry_msgs.msg.Pose()
-    home_pose.position.x = 0.1989471831501947
-    home_pose.position.y = -4.213686537985398e-05
-    home_pose.position.z = 0.033605173050147194#+0.750
+    home_pose.position.x =  0.20701760221168963
+    home_pose.position.y = 1.4408959667063535e-05
+    home_pose.position.z = 0.11199180862771843
     home_pose.orientation.x = -0.9999072837831338
     home_pose.orientation.y = -4.859141964351074e-05
     home_pose.orientation.z = 0.013613290340705797
