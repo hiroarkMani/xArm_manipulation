@@ -536,6 +536,91 @@ xarm.go()
 ```
 25行目にこんな記述があります. これはそのままの意味で、xarm_descriptionというファイルを見つけ、その下のurdf/xarm6_robot_macro.xacro　というxacroファイルをインクルードしているだけですね.ではその,$(find xarm_description)/urdf/xarm6_robot_macro.xacroファイルを覗いてみましょう.(25行目以外はおまじないみたいなもので最初はいいです。正直荒木も全部わかっていません)
 
+```bash
+16 <xacro:include filename="$(find xarm_description)/urdf/xarm6.urdf.xacro" />
+```xarm6.urdf.xacro.
+特にここが重要. さっきと同じでxarm6.urdf.xacroを呼び出している. 他は、関節の限界角度だったり、Gazeboの設定をやっているけど今回は一旦無視.では、xarm6.urdf.xacroを見てみよう.
+
+```bash
+<link name="${prefix}link_base">
+      <visual>
+        <geometry>
+          <mesh filename="package://xarm_description/meshes/xarm6/visual/base.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="${prefix}White" />
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://xarm_description/meshes/xarm6/visual/base.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </collision>
+      <inertial>
+      <origin xyz="0.0 0.0 0.09103" rpy="0 0 0" />
+      <mass value="2.7" />
+      <inertia
+        ixx="0.00494875"
+        ixy="-3.5E-06"
+        ixz="1.25E-05"
+        iyy="0.00494174"
+        iyz="1.67E-06"
+        izz="0.002219" />
+      </inertial>
+    </link>
+
+    <link name="${prefix}link1">
+      <visual>
+        <geometry>
+          <mesh filename="package://xarm_description/meshes/xarm6/visual/link1.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="${prefix}White" />
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://xarm_description/meshes/xarm6/visual/link1.stl"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </collision>
+      <inertial>
+        <origin xyz="-0.002 0.02692 -0.01332" rpy="0 0 0"/>
+        <mass value="2.16"/>
+        <inertia
+          ixx="0.00539427"
+          ixy="1.095E-05"
+          ixz="1.635E-06"
+          iyy="0.0048979"
+          iyz="0.000793"
+          izz="0.00311573"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}joint1" type="revolute">
+      <parent link="${prefix}link_base"/>
+      <child  link="${prefix}link1"/>
+      <origin xyz="0 0 0.267" rpy="0 0 0"/>
+      <axis   xyz="0 0 1"/>
+      <limit
+        lower="${joint1_lower_limit}"
+        upper="${joint1_upper_limit}"
+        effort="50.0"
+        velocity="3.14"/>
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+```
+各リンク、関節の情報や関係をこんな形で記述している. では試しに"${prefix}joint1" のところの<origin>の部分を,
+
+```bash
+<origin xyz="0.3 0 0.267" rpy="0 0 0"/>
+```
+に変えて,xarm_description/urdf/xarm6_robot.urdf.xacroのURDFpreviewを見てみよう.
+![Screenshot from 2022-12-29 15-40-36](https://user-images.githubusercontent.com/86779771/209913898-9cde295a-1792-4be1-a517-5de7e058018a.png)
+こんな感じにずれていればok. もちろんこのままじゃまずいから戻してください.
+こんなように、URDFファイルでロボットの幾何情報を記述して、動作計画時に各リンクが干渉しないようにしている.
+
+では、ようやくですけどグリッパを付けていくとしましょう.
+
 ### 課題(5): ペットボトル把持
 &ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう
 
