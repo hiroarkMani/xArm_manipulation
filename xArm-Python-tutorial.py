@@ -32,8 +32,6 @@ else:
         return ch
 
 def ArmInitialization():
-    robot = moveit_commander.RobotCommander()
-
     print("=" * 10, " Robot Groups:")
     print(robot.get_group_names())
     print("=" * 10, " Printing robot state")
