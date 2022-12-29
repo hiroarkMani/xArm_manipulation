@@ -534,7 +534,7 @@ xarm.go()
 ```bash
 25 <xacro:include filename="$(find xarm_description)/urdf/xarm6_robot_macro.xacro" />
 ```
-25行目にこんな記述があります. これはそのままの意味で、xarm_descriptionというファイルを見つけ、その下のurdf/xarm6_robot_macro.xacro　というxacroファイルをインクルードしているだけですね.ではその,$(find xarm_description)/urdf/xarm6_robot_macro.xacroファイルを覗いてみましょう.(25行目以外はおまじないみたいなもので最初はいいです。正直荒木も全部わかっていません)　ちなみに<!-- ??? -->はxml形式の言語の際のコメントアウトです.
+25行目にこんな記述があります. これはそのままの意味で、xarm_descriptionというファイルを見つけ、その下のurdf/xarm6_robot_macro.xacro　というxacroファイルをインクルードしているだけですね.ではその,$(find xarm_description)/urdf/xarm6_robot_macro.xacroファイルを覗いてみましょう.(25行目以外はおまじないみたいなもので最初はいいです。正直荒木も全部わかっていません)　ちなみに＜!-- ??? --＞はxml形式の言語の際のコメントアウトです.
 
 ```bash
 16 <xacro:include filename="$(find xarm_description)/urdf/xarm6.urdf.xacro" />
