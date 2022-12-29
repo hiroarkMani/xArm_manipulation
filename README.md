@@ -677,7 +677,8 @@ xarm_description/urdf/xarm_gripper.urdf.xacroを覗いてみましょう.
       </geometry>
     </collision>
    ```
-グリッパを構成するリンクとその関係を示すjoint情報がズラーッと並んでいますね. 今回は、これを食器ハンドに変えてもらいます.余裕があれば、机やカメラスタンド、プレートラックなども置いてみましょう.目指す形はこれです.
+グリッパを構成するリンクとその関係を示すjoint情報がズラーッと並んでいますね. 今回は、これを食器ハンドに変えてもらいます.余裕があれば、机やカメラスタンド、プレートラックなども置いてみましょう.目指す形はこれです. 各オブジェクトの位置関係は試行錯誤で調整してみてください. 各オブジェクトのSTLファイルはここに上げています.
+   
    ![Screenshot from 2022-12-29 16-05-44](https://user-images.githubusercontent.com/86779771/209916231-2016cc77-994c-4ade-9cba-20514d4e1708.png)
    
 xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功したらこの課題は通過です.
