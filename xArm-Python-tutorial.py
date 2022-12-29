@@ -98,13 +98,6 @@ def test_pose():
 moveitの関数の使い方の説明等は以下のURLを見れば分かります.
 URL:https://robo-marc.github.io/moveit_documents/moveit_commander.html
 
-課題：
-(1) キーボード入力で好きな位置へ移動させる.(rpyは今回やりません. orientationの4つのパラメータはイジらないように)
-(2) boxを邪魔な位置に生成してみた上で(1)の位置に動作させてみよう.
-(3) 円軌道を描いてみせよ(それなりに早く)
-(4)(※別のプログラム) URDFファイルを編集し、ペンアタッチメントをエンドエフェクタとして付けてみる
-(5) ペンを付けて自分のイニシャル文字を書いてみる.
-
 gazeboでシミュレーションする方法:
 ターミナル
 $ roslaunch xarm_gazebo xarm6_beside_table.launch
