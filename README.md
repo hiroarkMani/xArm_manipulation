@@ -21,7 +21,7 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 もし、xarm等のパッケージに更新があり、本資料ではエラーが出てしまう場合は、お手数ですが更新をお願いします.github分からないかもしれないですけど、なんとなくこの資料のRawデータ見ればわかるはずですので頑張ってください. 始めてのgithubがこれなので参考にならないかもですけども...また、最初の編集者(荒木)は広く浅くなので、所々解説が雑です. 深い部分まで理解が出来た方はドンドン書き加えて、間違ってたら直してください！
 |更新日|氏名|配属|mail(任意)|
 | ------------- | ------------- |------------- | ------------- |
-| 2022/12/28| 荒木 博揚 |2020(15期生)| hiroark.mani@gmail.com |
+| 2022/12/29| 荒木 博揚 |2020(15期生)| hiroark.mani@gmail.com |
 
 
 # 目次:  
@@ -677,12 +677,54 @@ xarm_description/urdf/xarm_gripper.urdf.xacroを覗いてみましょう.
       </geometry>
     </collision>
    ```
-グリッパを構成するリンクとその関係を示すjoint情報がズラーッと並んでいますね. 今回は、これを食器ハンドに変えてもらいます.余裕があれば、机やカメラスタンド、プレートラックなども置いてみましょう.目指す形はこれです. 各オブジェクトの位置関係は試行錯誤で調整してみてください. 各オブジェクトの[STLファイル](https://github.com/hiroarkMani/xArm_manipulation/tree/main/visual)はここに上げています.
+グリッパを構成するリンクとその関係を示すjoint情報がズラーッと並んでいますね. 今回は、これを食器ハンドに変えてもらいます.余裕があれば、机やカメラスタンド、プレートラックなども置いてみましょう.目指す形は以下です. 各オブジェクトの位置関係は試行錯誤で調整してみてください. 各オブジェクトの[STLファイル](https://github.com/hiroarkMani/xArm_manipulation/tree/main/visual)はここに上げています.
    
    ![Screenshot from 2022-12-29 16-05-44](https://user-images.githubusercontent.com/86779771/209916231-2016cc77-994c-4ade-9cba-20514d4e1708.png)
    
 xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功したらこの課題は通過です.
+   ※　本研究室にはxArm_gripperはないので、書き換えちゃっていいです.
 
-### 課題(5): ペットボトル把持
+### 課題(5): ペットボトル把持(実機のみ)
 &ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう
 
+   さて、最後の課題です.
+   
+   まず、少しおさらいです. 実機を動かすためには、
+   ```bash
+   $ roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
+   ```
+   を使っていましたね. しかし、これを打っても(4)のモデルは投影されないでしょう.今回は,
+   ```bash
+   $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.1.217
+   ```
+   を使う必要があります.簡単な話gripperついてるからこっち使おうねってことです。ではこ/xarm_ros/xarm6_gripper_moveit_config/launch/realMove_exec.launch
+   の中身を見てみましょう. もう慣れてきたと思いますが、includeしているファイルを探します. ここでは,
+   ```bash
+     <include file="$(find xarm_bringup)/launch/xarm6_server.launch">
+    <include file="$(find xarm6_gripper_moveit_config)/launch/moveit_rviz_common.launch">
+   ```
+    この２つをインクルードしてますね、前者の方は3.4でxarmの起動をするに過ぎないと説明しました.なので、重要なのは後者のmoveit_rviz_common.launchでしょう.
+       ここから、includeファイルの連鎖になるので、重要なところまで飛ばします. その経路は以下です.
+       ```bash
+       realMove_exec.launch/moveit_rviz_common.launch/planning_context.launch/xarm6_with_gripper.xacro/xarm_gripper_model.xacro/xarm_gripper.urdf.xacro
+       ```
+       こうして見覚えのあるファイルに行き着き、STLファイルを読み込んでいる事がなんとなくわかるかなと思います.
+       もしかしたら、ここにある全てのファイルをコピーして新しく違う名前で作る必要があるかもしれません.
+       
+   ```bash
+   $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch(作った人はそれに書き換え) robot_ip:=192.168.1.217
+   ```
+       で(4)のモデルが投影されたら、干渉チェックできるようになっています. 敢えて机にぶつかるように計画して動かしてみてください. ピクリともしないはずです.
+       
+   
+  それでは、ペットボトル把持のテストをしてみましょう.ハンドの制御に関してはまた新しくDynamixelの環境構築等しなければならなったりで流石に面倒なので、掴んだ体で行きます.
+   
+       目標動作は以下です
+       1. 予め指定した位置にペットボトルをおく
+       2. そこまで、ペットボトルに当たらないようにアプローチして(掴む)
+       3. 少し持ち上げて、ホームに戻って(開く)
+   
+        
+       ここまでできれば課題は終了です. これらを大方理解し、あとはセンシングしたデータをROSでパブサブして〜自動化するみたいなことをすればアーム制御は困らないかなと思います.
+       難しかったと思いますが、大変お疲れ様でした.　
+   
