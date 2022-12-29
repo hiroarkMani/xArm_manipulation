@@ -682,7 +682,8 @@ xarm_description/urdf/xarm_gripper.urdf.xacroを覗いてみましょう.
    ![Screenshot from 2022-12-29 16-05-44](https://user-images.githubusercontent.com/86779771/209916231-2016cc77-994c-4ade-9cba-20514d4e1708.png)
    
 xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功したらこの課題は通過です.
-   ※　本研究室にはxArm_gripperはないので、書き換えちゃっていいです.
+  
+  ※　本研究室にはxArm_gripperはないので、書き換えちゃっていいです.
 
 ### 課題(5): ペットボトル把持(実機のみ)
 &ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう
