@@ -609,7 +609,7 @@ xarm.go()
       <dynamics damping="1.0" friction="1.0"/>
     </joint>
 ```
-各リンク、関節の情報や関係をこんな形で記述している. では試しに"${prefix}joint1" のところの<origin>の部分を,
+各リンク、関節の情報や関係をこんな形で記述している. では試しに"${prefix}joint1" のところのoriginの部分を,
 
 ```bash
 <origin xyz="0.3 0 0.267" rpy="0 0 0"/>
