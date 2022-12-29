@@ -703,18 +703,20 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
      <include file="$(find xarm_bringup)/launch/xarm6_server.launch">
     <include file="$(find xarm6_gripper_moveit_config)/launch/moveit_rviz_common.launch">
    ```
-    この２つをインクルードしてますね、前者の方は3.4でxarmの起動をするに過ぎないと説明しました.なので、重要なのは後者のmoveit_rviz_common.launchでしょう.
-       ここから、includeファイルの連鎖になるので、重要なところまで飛ばします. その経路は以下です.
-       ```bash
-       realMove_exec.launch/moveit_rviz_common.launch/planning_context.launch/xarm6_with_gripper.xacro/xarm_gripper_model.xacro/xarm_gripper.urdf.xacro
-       ```
-       こうして見覚えのあるファイルに行き着き、STLファイルを読み込んでいる事がなんとなくわかるかなと思います.
-       もしかしたら、ここにある全てのファイルをコピーして新しく違う名前で作る必要があるかもしれません.
+       
+   この２つをインクルードしてますね、前者の方は3.4でxarmの起動をするに過ぎないと説明しました.なので、重要なのは後者のmoveit_rviz_common.launchでしょう.
+   ここから、includeファイルの連鎖になるので、重要なところまで飛ばします. その経路は以下です.
+       
+   ```bash
+   realMove_exec.launch/moveit_rviz_common.launch/planning_context.launch/xarm6_with_gripper.xacro/xarm_gripper_model.xacro/xarm_gripper.urdf.xacro
+   ```
+   こうして見覚えのあるファイルに行き着き、STLファイルを読み込んでいる事がなんとなくわかるかなと思います.
+   もしかしたら、ここにある全てのファイルをコピーして新しく違う名前で作る必要があるかもしれません.
        
    ```bash
    $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch(作った人はそれに書き換え) robot_ip:=192.168.1.217
    ```
-       で(4)のモデルが投影されたら、干渉チェックできるようになっています. 敢えて机にぶつかるように計画して動かしてみてください. ピクリともしないはずです.
+   で(4)のモデルが投影されたら、干渉チェックできるようになっています. 敢えて机にぶつかるように計画して動かしてみてください. ピクリともしないはずです.
        
    
   それでは、ペットボトル把持のテストをしてみましょう.ハンドの制御に関してはまた新しくDynamixelの環境構築等しなければならなったりで流石に面倒なので、掴んだ体で行きます.
