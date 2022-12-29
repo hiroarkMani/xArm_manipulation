@@ -538,7 +538,7 @@ xarm.go()
 
 ```bash
 16 <xacro:include filename="$(find xarm_description)/urdf/xarm6.urdf.xacro" />
-```xarm6.urdf.xacro.
+```
 特にここが重要. さっきと同じでxarm6.urdf.xacroを呼び出している. 他は、関節の限界角度だったり、Gazeboの設定をやっているけど今回は一旦無視.では、xarm6.urdf.xacroを見てみよう.
 
 ```bash
@@ -616,7 +616,7 @@ xarm.go()
 ```
 に変えて,xarm_description/urdf/xarm6_robot.urdf.xacroのURDFpreviewを見てみよう.
 ![Screenshot from 2022-12-29 15-40-36](https://user-images.githubusercontent.com/86779771/209913898-9cde295a-1792-4be1-a517-5de7e058018a.png)
-こんな感じにずれていればok. もちろんこのままじゃまずいから戻してください.
+こんな感じにずれていればok. ***もちろんこのままじゃまずいから戻してください***.
 こんなように、URDFファイルでロボットの幾何情報を記述して、動作計画時に各リンクが干渉しないようにしている.
 
 では、ようやくですけどグリッパを付けていくとしましょう.
