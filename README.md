@@ -698,8 +698,8 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
    ```bash
    $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.1.217
    ```
-   を使う必要があります.簡単な話gripperついてるからこっち使おうねってことです。ではこ/xarm_ros/xarm6_gripper_moveit_config/launch/realMove_exec.launch
-   の中身を見てみましょう. もう慣れてきたと思いますが、includeしているファイルを探します. ここでは,
+   を使う必要があります.簡単な話gripperついてるからこっち使おうねってことです。ではこの/xarm_ros/xarm6_gripper_moveit_config/launch/realMove_exec.launch
+   中身を見てみましょう. もう慣れてきたと思いますが、includeしているファイルを探します. ここでは,
    ```bash
      <include file="$(find xarm_bringup)/launch/xarm6_server.launch">
     <include file="$(find xarm6_gripper_moveit_config)/launch/moveit_rviz_common.launch">
