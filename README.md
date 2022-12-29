@@ -712,6 +712,7 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
    realMove_exec.launch/moveit_rviz_common.launch/planning_context.launch/xarm6_with_gripper.xacro/xarm_gripper_model.xacro/xarm_gripper.urdf.xacro
    ```
    こうして見覚えのあるファイルに行き着き、STLファイルを読み込んでいる事がなんとなくわかるかなと思います.
+   このSTLファイルを食器ハンドに変えて，位置の調整をしてしまえば上手くいくはずでしょう．頑張ってください．
    もしかしたら、ここにある全てのファイルをコピーして新しく違う名前で作る必要があるかもしれません.
        
    ```bash
