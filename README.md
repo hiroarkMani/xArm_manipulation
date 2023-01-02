@@ -745,7 +745,7 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
   
   また、把持想定のペットボトルは700mlのペットボトルとし、以下の様なサイズのものをPlanningSceneに投影してください.
   ```bash
-  円筒形状/直径75mm/高さ260mm
+  円筒形状/直径72mm/高さ260mm
   ```
   掴む動作と放す動作は以下のようにしてください.
   ```bash
