@@ -702,7 +702,7 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
   ※　本研究室にはxArm_gripperはないので、書き換えちゃっていいです.
 
 ### 課題(5): ペットボトル把持(実機のみ)
-&ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう. 
+&ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう. ※(4)の環境を新しく用意するのが失敗する場合が予想されるので既存の環境下でやるかも.(ちょっと厄介なところなので、講習会後ご自身でやってみてください)
 
    さて、最後の課題です.
    
@@ -756,7 +756,23 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
   ```
  
  ***注意事項***
-   1. エンドエフェクタがついている場合、target_poseはxarm6のlink6の手先位置ではなく、ハンドの座標系の位置になります.(どのくらいずらせばいいかは口頭で伝えます)
+   1. エンドエフェクタがついている場合、target_poseはxarm6のlink6の手先位置ではなく、ハンドの座標系の位置になります.home_positionは以下の様な位置に少しずれます.
+   ```bash
+   def Go_homeposition_EE():
+    home_pose = geometry_msgs.msg.Pose()
+    home_pose.position.x =  0.20701760221168963
+    home_pose.position.y = 1.4408959667063535e-05
+    home_pose.position.z = 0.03400251924164405
+    home_pose.orientation.x = -0.9999072837831338
+    home_pose.orientation.y = -4.859141964351074e-05
+    home_pose.orientation.z = 0.013613290340705797
+    home_pose.orientation.w = 0.00031591519361944936
+
+    xarm.set_max_velocity_scaling_factor(0.6)
+
+    xarm.set_pose_target(home_pose)
+    xarm.go()
+    ```
    2. ペットボトルへのアプローチする姿勢は、以下のようにすればうまく行きます.
    ```bash
    def approach(pet_pose):
@@ -774,8 +790,9 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
     target_pose.orientation.w = quat[3]
     xarm.set_pose_target(target_pose)
     xarm.go()
-    
    ```
+   3.(やるかは任意)運んでいるPETと机が干渉しないようにするにはどうすればいいのか、この[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を見ながら対処してみよう. 環境にラックを入れている場合はホームでラックとPETがどうしても当たるのでそこの干渉は許容してしまいましょう(実際はラック置きません).　ヒントは、attach.
+   
    
         
  ここまでできれば課題は終了です. これらを大方理解し、あとはセンシングしたデータをROSでパブサブして〜自動化するみたいなことをすればアーム制御は困らないかなと思います.
