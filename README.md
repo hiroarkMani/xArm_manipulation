@@ -757,7 +757,7 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
  
  ***注意事項***
    1. エンドエフェクタがついている場合、target_poseはxarm6のlink6の手先位置ではなく、ハンドの座標系の位置になります.home_positionは以下の様な位置に少しずれます.
-   ```bash
+```bash
    def Go_homeposition_EE():
     home_pose = geometry_msgs.msg.Pose()
     home_pose.position.x =  0.20701760221168963
@@ -772,7 +772,7 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
 
     xarm.set_pose_target(home_pose)
     xarm.go()
-    ```
+```
     
 2. ペットボトルへのアプローチする姿勢は、以下のようにすればうまく行きます.
 ```bash
