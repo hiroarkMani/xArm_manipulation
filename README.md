@@ -513,7 +513,7 @@ psi = moveit_commander.PlanningSceneInterface()
 ```
 ↑　これがヒント！！あとはこの[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を活用して頑張ってみよう.
 
-[最終ヒント](https://github.com/tork-a/tork_moveit_tutorial/blob/indigo-devel/doc/moveit-tutorial_ja_robot-python_advanced.md)(どうしても分からない場合はここにほぼ答えがあるよ！)
+[最終ヒント](https://github.com/tork-a/tork_moveit_tutorial/blob/indigo-devel/doc/moveit-tutorial_ja_robot-python_advanced.md)(2,30分考えたけどどうしても分からない場合はここにほぼ答えがあるので見てみよう)
 
 
 ### 課題(3):滑らかに円軌道を描け
