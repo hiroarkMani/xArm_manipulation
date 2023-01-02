@@ -402,7 +402,7 @@ $ rosservice call /xarm/moveit_clear_err
 &ensp;&ensp;  このサービスを呼び出した後、「xarm/xarm_states」でエラー ステータスをもう一度確認してください。0 になっていれば、クリアは成功です。それ以外の場合は、エラー/例外が適切に解決されていないことを意味します。エラーのクリアに成功した場合は、ロボットの状態を 0に設定して、再び移動できるようにすることを忘れないでください。
 
 # 4. Mode Change
-&ensp;&ensp;xArm may operate under different modes depending on different controling methods. Current mode can be checked in the message of topic "xarm/xarm_states". And there are circumstances that demand user to switch between operation modes. 
+&ensp;&ensp;xArmは、制御方法によって異なるモードで動作することがあります。現在のモードは、トピック "xarm/xarm_states "のメッセージで確認することができます。また、動作モードの切り替えが必要な状況もあります。
 
 ### 4.1 Mode Explanation
 
