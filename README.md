@@ -773,8 +773,9 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
     xarm.set_pose_target(home_pose)
     xarm.go()
     ```
-   2. ペットボトルへのアプローチする姿勢は、以下のようにすればうまく行きます.
-   ```bash
+    
+2. ペットボトルへのアプローチする姿勢は、以下のようにすればうまく行きます.
+```bash
    def approach(pet_pose):
 
     target_pose = geometry_msgs.msg.Pose()
@@ -790,8 +791,8 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
     target_pose.orientation.w = quat[3]
     xarm.set_pose_target(target_pose)
     xarm.go()
-   ```
-   3.(やるかは任意)運んでいるPETと机が干渉しないようにするにはどうすればいいのか、この[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を見ながら対処してみよう. 環境にラックを入れている場合はホームでラックとPETがどうしても当たるのでそこの干渉は許容してしまいましょう(実際はラック置きません).　ヒントは、attach.
+```
+3.(やるかは任意)運んでいるPETと机が干渉しないようにするにはどうすればいいのか、この[サイト](https://robo-marc.github.io/moveit_documents/moveit_commander.html)を見ながら対処してみよう. 環境にラックを入れている場合はホームでラックとPETがどうしても当たるのでそこの干渉は許容してしまいましょう(実際はラック置きません).　ヒントは、attach.
    
    
         
