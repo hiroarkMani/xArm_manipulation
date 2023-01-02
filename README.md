@@ -755,6 +755,28 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
       rospy.sleep(3)
   ```
  
+ ***注意事項***
+   1. エンドエフェクタがついている場合、target_poseはxarm6のlink6の手先位置ではなく、ハンドの座標系の位置になります.(どのくらいずらせばいいかは口頭で伝えます)
+   2. ペットボトルへのアプローチする姿勢は、以下のようにすればうまく行きます.
+   ```bash
+   def approach(pet_pose):
+
+    target_pose = geometry_msgs.msg.Pose()
+    target_pose.position.x = pet_pose.pose.position.x -0.03
+    target_pose.position.y = pet_pose.pose.position.y -0.17
+    target_pose.position.z = pet_pose.pose.position.z +0.0
+
+    rpy=[1.5*np.pi,0.0*np.pi,0.5*np.pi]
+    quat = tf.transformations.quaternion_from_euler(rpy[0], rpy[1], rpy[2])
+    target_pose.orientation.x = quat[0]
+    target_pose.orientation.y = quat[1]
+    target_pose.orientation.z = quat[2]
+    target_pose.orientation.w = quat[3]
+    xarm.set_pose_target(target_pose)
+    xarm.go()
+    
+   ```
+   
         
  ここまでできれば課題は終了です. これらを大方理解し、あとはセンシングしたデータをROSでパブサブして〜自動化するみたいなことをすればアーム制御は困らないかなと思います.
  難しかったと思いますがここまでできれば、後はどんな問題にぶつかっても大体自己解決できるかなと思います、大変お疲れ様でした.　
