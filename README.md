@@ -21,7 +21,7 @@ xArmの動かし方は基本的に二つある(他にもコマンド操作のよ
 もし、xarm等のパッケージに更新があり、本資料ではエラーが出てしまう場合は、お手数ですが更新をお願いします.github分からないかもしれないですけど、なんとなくこの資料のRawデータ見ればわかるはずですので頑張ってください. 始めてのgithubがこれなので参考にならないかもですけども...また、最初の編集者(荒木)は広く浅くなので、所々解説が雑です. 深い部分まで理解が出来た方はドンドン書き加えて、間違ってたら直してください！
 |更新日|氏名|配属|mail(任意)|
 | ------------- | ------------- |------------- | ------------- |
-| 2022/12/29| 荒木 博揚 |2020(15期生)| hiroark.mani@gmail.com |
+| 2023/1/2| 荒木 博揚 |2020(15期生)| hiroark.mani@gmail.com |
 
 
 # 目次:  
@@ -521,7 +521,9 @@ psi = moveit_commander.PlanningSceneInterface()
 &ensp;&ensp; z=0.300 で適当に円軌道を素速く描け.
 試しに、
 ```bash
-target_pose.x=???
+target_pose.position.x=???
+target_pose.position.y=???
+target_pose.position.z=const.
 xarm.set_pose_target(target_pose)
 xarm.go()
 ```
