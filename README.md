@@ -702,7 +702,7 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
   ※　本研究室にはxArm_gripperはないので、書き換えちゃっていいです.
 
 ### 課題(5): ペットボトル把持(実機のみ)
-&ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう
+&ensp;&ensp;  (4)の環境のまま,ペットボトルを掴んでホームまで持っていこう. 
 
    さて、最後の課題です.
    
@@ -754,7 +754,7 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
   def openhand():
       rospy.sleep(3)
   ```
-   
+ 
         
  ここまでできれば課題は終了です. これらを大方理解し、あとはセンシングしたデータをROSでパブサブして〜自動化するみたいなことをすればアーム制御は困らないかなと思います.
  難しかったと思いますがここまでできれば、後はどんな問題にぶつかっても大体自己解決できるかなと思います、大変お疲れ様でした.　
