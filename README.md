@@ -530,6 +530,7 @@ xarm.go()
 
 ヒント：動かす関数は何もgo()だけではない.
 
+[最終ヒント](https://github.com/tork-a/tork_moveit_tutorial/blob/indigo-devel/doc/moveit-tutorial_ja_robot-python_basic.md)(2,30分考えたけどどうしても分からない場合はここにほぼ答えがあるので見てみよう)
 
 ### 課題(4):(以下任意)ロボットハンド装着
 &ensp;&ensp;  URDFファイルを編集し、ロボットハンドをエンドエフェクタとして付けてみる(3.5.1でやったような方法ではないです).　余裕があれば他にも机やカメラスタンドを付けて、launchファイルを起動してみよう.
