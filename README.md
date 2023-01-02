@@ -741,11 +741,18 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
   目標動作は以下です
   1. 予め指定した位置にペットボトルをおく
   2. そこまで、ペットボトルに当たらないようにアプローチして(掴む)
-  3. 少し持ち上げて、ホームに戻って(開く)
+  3. 少し持ち上げて、ホームに戻って(放す)
   
   また、把持想定のペットボトルは700mlのペットボトルとし、以下の様なサイズのものをPlanningSceneに投影してください.
   ```bash
   円筒形状/直径75mm/高さ260mm
+  ```
+  掴む動作と放す動作は以下のようにしてください.
+  ```bash
+  def grasp():
+      rospy.sleep(5)
+  def openhand():
+      rospy.sleep(3)
   ```
    
         
