@@ -448,11 +448,14 @@ $ rosservice call /xarm/set_state 0
 $ cd catkin_ws/src
 $ sudo chmod 755 xArm-Python-tutorial.py
 
-$ cd ..
-$ roslaunch xarm_gazebo xarm6_beside_table.launch
 別ターミナルで
-$ roslaunch xarm6_moveit_config xarm6_moveit_gazebo.launch
+$ cd ~/catkin_ws
+$ roslaunch xarm_gazebo xarm6_beside_table.launch
 さらに別ターミナルで
+$ cd ~/catkin_ws
+$ roslaunch xarm6_moveit_config xarm6_moveit_gazebo.launch
+
+さらに最初のターミナル(catkin_ws/src内)で
 $ python3 xArm-Python-tutorial.py
 ```
 
@@ -726,6 +729,11 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
   1. 予め指定した位置にペットボトルをおく
   2. そこまで、ペットボトルに当たらないようにアプローチして(掴む)
   3. 少し持ち上げて、ホームに戻って(開く)
+  
+  また、把持想定のペットボトルは700mlのペットボトルとし、以下の様なサイズのものをPlanningSceneに投影してください.
+  ```bash
+  円筒形状/直径75mm/高さ260mm
+  ```
    
         
  ここまでできれば課題は終了です. これらを大方理解し、あとはセンシングしたデータをROSでパブサブして〜自動化するみたいなことをすればアーム制御は困らないかなと思います.
