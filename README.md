@@ -493,6 +493,7 @@ orientation:
    1. x,y,zの指令値は[m]単位です. 
    2. target_pose.orientation.*　の部分は弄らないようにしてください.
    ```bash
+   姿勢はこのままにするように
     target_pose.orientation.x = -0.9999072837831338
     target_pose.orientation.y = -4.859141964351074e-05
     target_pose.orientation.z = 0.013613290340705797
