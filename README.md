@@ -750,8 +750,10 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
   掴む動作と放す動作は以下のようにしてください.
   ```bash
   def grasp():
+      print("hand grasping")
       rospy.sleep(5)
   def openhand():
+      print("Open hand")
       rospy.sleep(3)
   ```
  
