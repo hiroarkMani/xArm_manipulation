@@ -778,6 +778,7 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
     
 2. ペットボトルへのアプローチする姿勢は、以下のようにすればうまく行きます.
 ```bash
+import tf #これ書き足す必要がある
    def approach(pet_pose):
 
     target_pose = geometry_msgs.msg.Pose()
