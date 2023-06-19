@@ -204,14 +204,14 @@ xarm_moveit_config 関連パッケージは、すべての関節を [-pi, pi] �
 
 #### xArm Gripperを実際に入荷し取り付けた場合:  
    ```bash
-   $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
+   $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.x.xxx 
    ```
    
 Moveitプランナーはグリッパーを考慮して衝突判定を行うので、このパッケージは実際のxArmグリッパーと一緒に使うのがよいでしょう。 
 
 #### xArm Vaccum Gripperを実際に入荷し取り付けた場合:  
    ```bash
-   $ roslaunch xarm7_vacuum_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.1.217
+   $ roslaunch xarm7_vacuum_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.x.xxx
    ```
 
 ## 3.5.1 Moveitのためのカスタムツールモデルの追加
@@ -260,7 +260,7 @@ Rviz&moveitではなく、コマンドからも動かすことが可能です.
 
 &ensp;&ensp;まず、xarm6 のサービスサーバーを起動します:  
 ```bash
-$ roslaunch xarm_bringup xarm6_server.launch robot_ip:=192.168.1.217 report_type:=normal
+$ roslaunch xarm_bringup xarm6_server.launch robot_ip:=192.168.x.xxx report_type:=normal
 ```
 
 &ensp;&ensp;次に、すべてのサーボモーターが有効になっていることを確認します:
@@ -389,7 +389,7 @@ offset: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
 以下のコマンド(moveit!)でxArmを起動している場合はもっとトピックが多いことでしょう.
 ```bash
-roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
+roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.x.xxx
 ```
 &ensp;&ensp;errの表示がゼロ以外の場合、サービス"/xarm/clear_err"を呼び出すことにより、このエラー状態を取り除くことができます。
 ```bash
@@ -708,11 +708,11 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
    
    まず、少しおさらいです. 実機を動かすためには、
    ```bash
-   $ roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
+   $ roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.x.xxx
    ```
    を使っていましたね. しかし、これを打っても(4)のモデルは投影されないでしょう.今回は,
    ```bash
-   $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.1.217
+   $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch robot_ip:=192.168.x.xxx
    ```
    を使う必要があります.簡単な話gripperついてるからこっち使おうねってことです。ではこの/xarm_ros/xarm6_gripper_moveit_config/launch/realMove_exec.launch
    中身を見てみましょう. もう慣れてきたと思いますが、includeしているファイルを探します. ここでは,
@@ -732,7 +732,7 @@ xarm_description/urdf/xarm6_with_gripper.xacro でのURDF Previewが成功した
    もしかしたら、ここにある全てのファイルをコピーして新しく違う名前で作る必要があるかもしれません.
        
    ```bash
-   $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch(作った人はそれに書き換え) robot_ip:=192.168.1.217
+   $ roslaunch xarm6_gripper_moveit_config realMove_exec.launch(作った人はそれに書き換え) robot_ip:=192.168.x.xxx
    ```
    で(4)のモデルが投影されたら、干渉チェックできるようになっています. 敢えて机にぶつかるように計画して動かしてみてください. ピクリともしないはずです.
        
