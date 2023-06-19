@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="xarm_gripper">
+<!--
+  Author: Jason Peng <jason@ufactory.cc>
+-->
+  <xacro:macro name="xarm_gripper_urdf" params="prefix:='' attach_to:='' rpy:='0 0 0' xyz:='0 0 0' ">
+  <xacro:unless value="${attach_to == ''}">
+    <joint name="${prefix}gripper_fix" type="fixed">
+      <parent link="${attach_to}"/>
+      <child link="${prefix}xarm_gripper_base_link"/>
+      <origin xyz="0 0 0.078" rpy="0 0 0"/>
+    </joint>
+  </xacro:unless>
+  <link
+    name="${prefix}xarm_gripper_base_link">
+    <visual>
+      <origin
+        xyz="0.017 0.11 -0.029"
+        rpy="1.57 1.57 0"
+         />
+      <geometry>
+        <mesh
+          filename="package://xarm_gripper/meshes/hand_cam.STL" />
+          <!--filename="package://xarm_gripper/meshes/visual_model0.STL" /> /-->
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0.5 0.8 0.7"/>
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.017 0.11 -0.029"
+        rpy="1.57 1.57 0" />
+      <geometry>
+        <mesh
+          filename="package://xarm_gripper/meshes/hand_cam.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link
+    name="${prefix}camera_point">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0"
+         />
+      <geometry>
+        <sphere radius="0.001"/>
+      </geometry>
+      <material name="${prefix}Black">
+        <color rgba="0.0 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.00001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="${prefix}camera_joint" type="fixed">
+      <parent link="${prefix}xarm_gripper_base_link"/>
+      <child link="${prefix}camera_point"/>
+      <origin xyz="0.05645 0.04190 -0.02549" rpy="0 0 0"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>
