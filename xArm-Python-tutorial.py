@@ -103,7 +103,7 @@ $ roslaunch xarm_gazebo xarm6_beside_table.launch
 $ roslaunch xarm6_moveit_config xarm6_moveit_gazebo.launch
 
 実機で動作させる場合:
-$ roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.1.217 
+$ roslaunch xarm6_moveit_config realMove_exec.launch robot_ip:=192.168.x.xxx 
 
 """
 
